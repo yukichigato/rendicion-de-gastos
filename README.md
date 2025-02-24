@@ -59,6 +59,6 @@ npm run dev
 This will run the frontend locally.
 
 > [!WARNING]
-> To handle image/file storage, we use Vercel BLOB. To fetch data from there, the domain _needs_ to be https.
-> To achieve that use a gateway API like [ngrok](https://ngrok.com/) or else the application might break trying to fetch
+> To handle image/file storage, we use Vercel BLOB. It's not possible to fetch data from there while hosting the app locally,
+> you have to use a gateway API like [ngrok](https://ngrok.com/) or else the application might break trying to fetch
 > files and images.
