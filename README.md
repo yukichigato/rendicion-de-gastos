@@ -46,3 +46,19 @@ docker-compose up --build
 
 - **GET '/api/users'**: Get all users from the database.
 - **POST '/api/users'**: Create a user in the database.
+
+## Client Usage
+
+To use the client, type the following commands in your terminal:
+
+```bash
+cd client
+npm run dev
+```
+
+This will run the frontend locally.
+
+> [!IMPORTANT]
+> To handle image/file storage, we use Vercel BLOB. To fetch data from there, the domain _needs_ to be https.
+> To achieve that use a gateway API like [ngrok](https://ngrok.com/) or else the application might break trying to fetch
+> files and images.
