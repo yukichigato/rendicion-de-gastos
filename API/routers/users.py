@@ -5,7 +5,7 @@ from ..types import UserData
 userRouter = APIRouter(prefix="/api/users")
 
 @userRouter.get("/")
-def getAllUsers(limit = 0, offset = 0):
+def getAllUsers(limit = 999, offset = 0):
     try:
         rows = getUsers(limit, offset)
         return rows

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ..models.expense_report import createReport
+from ..models.expense_report import createReport, getReports, getReportByID
 from ..types import ReportData
 
 reportRouter = APIRouter(prefix="/api/expense_report")
@@ -17,4 +17,20 @@ def postReport(reportData: ReportData):
         )
         return { "id": newID }
     except Exception as error:
-        raise HTTPException(status_code = 500, detail="Server Error")
+        raise HTTPException(status_code = 500, detail = "Server Error")
+    
+@reportRouter.get("/{id}")
+def getReport():
+    try:
+        rows = getReportByID(id)
+        return rows
+    except Exception as error:
+        raise HTTPException(status_code = 500, detail = "Server Error")
+    
+@reportRouter.get('/')
+def getAllRerports(limit = 999, offset = 0):
+    try:
+        rows = getReports(limit, offset)
+        return rows
+    except Exception as error:
+        raise HTTPException(status_code = 500, detail = "Server Error")
