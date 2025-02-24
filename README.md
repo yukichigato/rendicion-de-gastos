@@ -44,5 +44,5 @@ docker-compose up --build
 
 #### Database API (Base URL: _http://localhost:8000_):
 
-- _GET '/api/users'_: Get all users from the database.
-- _POST '/api/users'_: Create a user in the database.
+- **GET '/api/users'**: Get all users from the database.
+- **POST '/api/users'**: Create a user in the database.
