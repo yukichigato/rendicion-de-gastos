@@ -14,30 +14,31 @@ const Navbar = () => {
 
   return (
     <details ref={navbarRef}>
-      <summary className="fixed left-0 top-0 w-full border-b-[.0625rem] border-b-gray-300 bg-white text-4xl hover:cursor-pointer">
+      <summary className="fixed left-0 top-0 z-50 w-full border-b-[.0625rem] border-b-gray-300 bg-white text-4xl hover:cursor-pointer">
         <MdMenu />
       </summary>
       <ul className="fixed left-0 top-[2.25rem] z-10 flex list-none flex-col">
-        <li className="boder-b-0 border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-gray-900">
-          <Link href="" onClick={closeMenu}>
+        <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
+          <li className="boder-b-0 items-center border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:bg-white hover:text-gray-900">
             Profile
-          </Link>
-        </li>
-        <li className="boder-b-0 border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-gray-900">
-          <Link href="" onClick={closeMenu}>
+          </li>
+        </Link>
+        <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
+          <li className="boder-b-0 items-center border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:bg-white hover:text-gray-900">
             Your submissions
-          </Link>
-        </li>
-        <li className="boder-b-0 border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-gray-900">
-          <Link href="" onClick={closeMenu}>
+          </li>
+        </Link>
+
+        <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
+          <li className="boder-b-0 items-center border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:bg-white hover:text-gray-900">
             Dashboard
-          </Link>
-        </li>
-        <li className="border-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-gray-900">
-          <Link href="" onClick={closeMenu}>
+          </li>
+        </Link>
+        <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
+          <li className="boder-b-0 items-center border-l-[.0625rem] border-r-[.0625rem] border-t-[.0625rem] border-gray-900 bg-gray-900 p-2 text-white transition-all duration-200 hover:bg-white hover:text-gray-900">
             Log-out
-          </Link>
-        </li>
+          </li>
+        </Link>
       </ul>
     </details>
   );

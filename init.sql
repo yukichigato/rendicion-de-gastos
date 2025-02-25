@@ -4,6 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TYPE workplace_status AS ENUM ('Jefe De Area', 'Trabajador', 'Contador');
 CREATE TYPE workplace_area AS ENUM ('Otros', 'Ventas', 'Materiales', 'Procesos');
 CREATE TYPE expense_type AS ENUM ('Materiales', 'Social', 'Estadías', 'Necesidades', 'Alimentación', 'Otros');
+CREATE TYPE expense_report_status AS ENUM ('Pending', 'Approved', 'Denied');
 
 -- User/worker profile table
 CREATE TABLE IF NOT EXISTS users (
@@ -23,12 +24,12 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS expense_report (
     id UUID DEFAULT gen_random_uuid(),
     author_id UUID NOT NULL,
-    title TEXT NOT NULL,
-    details TEXT,
     "type" expense_type NOT NULL DEFAULT 'Otros',
     amount INTEGER NOT NULL CHECK (amount >= 0),
     backup_url TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
+    "status"  expense_report_status NOT NULL DEFAULT 'Pending',
+    comment TEXT DEFAULT '',
     FOREIGN KEY (author_id) REFERENCES users(id)
 );
 
