@@ -63,6 +63,6 @@ npm run dev
 This will run the frontend locally.
 
 > [!WARNING]
-> To handle image/file storage, we use Vercel BLOB. It's not possible to fetch data from there while hosting the app locally,
-> you have to use a gateway API like [ngrok](https://ngrok.com/) or else the application might break trying to fetch
-> files and images.
+> We use Vercel BLOB for image/file storage, so it's not possible to fetch data from the client while hosting the app locally (localhost);
+> you have to use a gateway API like [ngrok](https://ngrok.com/) or the client might possibly break trying to fetch
+> files from Vercel.
