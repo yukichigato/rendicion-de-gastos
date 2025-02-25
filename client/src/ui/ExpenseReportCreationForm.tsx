@@ -19,18 +19,6 @@ const ExpenseReportCreationForm = () => {
   const amountInputRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  //   CREATE TABLE IF NOT EXISTS expense_report (
-  //     id UUID DEFAULT gen_random_uuid(),
-  //     author_id UUID NOT NULL,
-  //     title TEXT NOT NULL,
-  //     details TEXT,
-  //     "type" expense_type NOT NULL DEFAULT 'Otros',
-  //     amount INTEGER NOT NULL CHECK (amount >= 0),
-  //     backup_url TEXT NOT NULL,
-  //     created_at TIMESTAMP DEFAULT NOW(),
-  //     FOREIGN KEY (author_id) REFERENCES users(id)
-  // );
-
   return (
     <form action="" className="flex flex-col p-8">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold">
@@ -103,7 +91,7 @@ const ExpenseReportCreationForm = () => {
       </div>
 
       <div className="mt-4 flex flex-col">
-        <SubmitButton />
+        <SubmitButton innerText="Submit" />
       </div>
     </form>
   );

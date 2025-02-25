@@ -28,7 +28,7 @@ const InputField = ({
         name={inputName}
         id={inputID}
         placeholder={placeholder}
-        className="rounded-md border-[.0625rem] border-gray-300 bg-white p-[.5rem] transition-[border] duration-100 hover:border-gray-500 focus:border-blue-500 focus:outline-none"
+        className="rounded-md border-[.0625rem] border-gray-300 bg-white p-[.5rem] transition-[border] duration-100 hover:border-gray-500 focus:border-blue-500 focus:outline-none focus:valid:border-lime-500 focus:invalid:border-red-400"
         required={required}
         min={inputType === "number" ? 0 : ""}
         ref={refHook}

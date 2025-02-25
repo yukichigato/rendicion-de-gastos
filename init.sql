@@ -8,7 +8,6 @@ CREATE TYPE expense_type AS ENUM ('Materiales', 'Social', 'Estadías', 'Necesida
 -- User/worker profile table
 CREATE TABLE IF NOT EXISTS users (
     id UUID DEFAULT gen_random_uuid(),
-    profile_picture_url TEXT NOT NULL DEFAULT '',
     "name" TEXT NOT NULL,
     rut TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,

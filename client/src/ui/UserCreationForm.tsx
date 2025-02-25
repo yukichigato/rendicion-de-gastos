@@ -114,7 +114,7 @@ const UserCreationForm = () => {
       </div>
 
       <div className="mt-4 flex flex-col">
-        <SubmitButton />
+        <SubmitButton innerText="Submit" />
       </div>
     </form>
   );

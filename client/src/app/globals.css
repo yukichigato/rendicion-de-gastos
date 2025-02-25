@@ -7,3 +7,10 @@ body {
   box-sizing: border-box;
   @apply text-gray-900;
 }
+
+body summary {
+  list-style: none;
+}
+body summary::-webkit-details-marker {
+  display: none;
+}
