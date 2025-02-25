@@ -1,10 +1,12 @@
 import UserCreationForm from "@/ui/UserCreationForm";
+import ExpenseReportCreationForm from "@/ui/ExpenseReportCreationForm";
 
 const Home = () => {
   return (
     <>
-      <main className="w-[30rem]">
+      <main className="flex w-[30rem] flex-col">
         <UserCreationForm />
+        <ExpenseReportCreationForm />
       </main>
     </>
   );
