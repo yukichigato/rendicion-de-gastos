@@ -20,7 +20,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Usage
 
-> ![WARNING]
+> [!WARNING]
 > We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost); you have to use a gateway API like ngrok or the client might possibly break trying to fetch files from Vercel.
 
 ### Getting started with nrgok (Gateway API)
