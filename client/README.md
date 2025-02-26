@@ -25,7 +25,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Getting started with nrgok (Gateway API)
 
-In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can use any other solution that runs the client in *https*.
+In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can use any other solution that runs the client in *https*. Please go to ngrok's (setup page)[https://dashboard.ngrok.com/get-started/setup/linux] for more detailed information.
 
 1. Install ngrok through the following bash command:
    ```bash
@@ -37,7 +37,7 @@ In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can us
     	&& sudo apt install ngrok
    ```
 
-2. Add your authentication token with this command:
+2. Add your authentication token with this command (you need to create an ngrok account for this step):
 
    ```bash
       ngrok config add-authtoken <authtoken>
