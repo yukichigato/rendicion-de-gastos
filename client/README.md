@@ -1,3 +1,5 @@
+# Expense Report Application Client
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -16,21 +18,34 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> ![WARNING]
+> We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost); you have to use a gateway API like ngrok or the client might possibly break trying to fetch files from Vercel.
 
-## Learn More
+### Getting started with nrgok (Gateway API)
 
-To learn more about Next.js, take a look at the following resources:
+In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can use any other solution that runs the client in *https*.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Install ngrok via the followin bash command:
+  ```bash
+    curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
+  	| sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+  	&& echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
+  	| sudo tee /etc/apt/sources.list.d/ngrok.list \
+  	&& sudo apt update \
+  	&& sudo apt install ngrok
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Add your authentication token with this command:
 
-## Deploy on Vercel
+   ```bash
+    ngrok config add-authtoken <authtoken>
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Deploy the client online, type in your console:
+   ```bash
+    ngrok http http://localhost:3000
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. The console will show you a link you can follow to use the client.
