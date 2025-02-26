@@ -1,8 +1,8 @@
 import UserCreationForm from "@/ui/UserCreationForm";
-import ExpenseReportCreationForm from "@/ui/ExpenseReportCreationForm";
+import ExpenseReportCreationForm from "@/ui/ExpenseReport/ExpenseReportCreationForm";
 import LoginForm from "@/ui/LoginForm";
 import Table from "@/ui/Table";
-import ExpenseReport from "@/ui/ExpenseReport";
+import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 
 const Home = () => {
   const tableHeadContent = [

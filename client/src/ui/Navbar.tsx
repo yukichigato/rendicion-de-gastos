@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <details ref={navbarRef}>
-      <summary className="fixed left-0 top-0 z-50 w-full border-b-[.0625rem] border-b-gray-300 bg-white text-4xl hover:cursor-pointer">
+      <summary className="fixed left-0 top-0 z-[990] w-full border-b-[.0625rem] border-b-gray-300 bg-white text-4xl hover:cursor-pointer">
         <MdMenu />
       </summary>
       <ul className="fixed left-0 top-[2.25rem] z-10 flex list-none flex-col">
