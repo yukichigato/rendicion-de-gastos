@@ -3,6 +3,7 @@ import ExpenseReportCreationForm from "@/ui/ExpenseReport/ExpenseReportCreationF
 import LoginForm from "@/ui/Forms/LoginForm";
 import Table from "@/ui/Table/Table";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
+import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 
 const Home = () => {
   const tableHeadContent = [
@@ -102,7 +103,11 @@ const Home = () => {
     <main className="flex flex-col">
       <div className="flex w-full flex-col gap-2">
         {expenseReportData.map((report, index) => (
-          <ExpenseReport data={report} key={index} />
+          <ExpenseReport
+            data={report}
+            key={index}
+            options={expenseReportOptions(report.status)}
+          />
         ))}
       </div>
       <div className="w-[30rem]">

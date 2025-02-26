@@ -11,7 +11,7 @@ const LoginForm = () => {
   const passwordInputRef = useRef(null);
 
   return (
-    <form action="" className="flex flex-col p-8">
+    <form action="" className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold">
         Good to see you again
       </h1>
