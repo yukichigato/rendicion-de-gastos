@@ -27,7 +27,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can use any other solution that runs the client in *https*.
 
-1. Install ngrok via the followin bash command:
+1. Install ngrok through the following bash command:
    ```bash
       curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
     	| sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
