@@ -1,6 +1,6 @@
 import React from "react";
-import TableHead from "@/ui/TableHead";
-import TableRow from "@/ui/TableRow";
+import TableHead from "@/ui/Table/TableHead";
+import TableRow from "@/ui/Table/TableRow";
 
 const Table = ({
   tableHeadContent,

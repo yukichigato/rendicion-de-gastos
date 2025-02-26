@@ -1,7 +1,7 @@
-import UserCreationForm from "@/ui/UserCreationForm";
+import UserCreationForm from "@/ui/Forms/UserCreationForm";
 import ExpenseReportCreationForm from "@/ui/ExpenseReport/ExpenseReportCreationForm";
-import LoginForm from "@/ui/LoginForm";
-import Table from "@/ui/Table";
+import LoginForm from "@/ui/Forms/LoginForm";
+import Table from "@/ui/Table/Table";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 
 const Home = () => {
