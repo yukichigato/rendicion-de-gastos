@@ -1,7 +1,13 @@
 import React from "react";
 
-const AcceptCloseButtons = ({ status }: { status: string }) => {
-  if (status === "Pending") {
+const AcceptCloseButtons = ({
+  status,
+  location,
+}: {
+  status: string;
+  location: string;
+}) => {
+  if (status === "Pending" && location === "Dashboard") {
     return (
       <>
         <button className="rounded-lg border-[.0626rem] border-lime-500 bg-white p-2 text-lime-500 transition-all duration-200 hover:border-gray-900 hover:bg-white hover:text-gray-900">

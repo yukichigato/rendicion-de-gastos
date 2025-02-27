@@ -12,7 +12,7 @@ const LoginForm = () => {
 
   return (
     <form action="" className="flex flex-col">
-      <h1 className="mb-10 justify-center self-center text-4xl font-semibold">
+      <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-rose-500">
         Good to see you again
       </h1>
 

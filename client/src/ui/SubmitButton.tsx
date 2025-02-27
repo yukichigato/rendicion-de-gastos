@@ -4,9 +4,12 @@ const SubmitButton = ({ innerText }: { innerText: string }) => {
   return (
     <button
       type="submit"
-      className="transition-[background-color, scale] rounded-lg border-[.0625rem] border-gray-900 bg-gray-900 p-4 text-white duration-200 hover:scale-[1.005] hover:rounded-lg hover:bg-white hover:text-gray-900"
+      className="group relative overflow-hidden rounded-lg border-[.0625rem] border-red-500 p-4 text-white transition-all duration-300"
     >
-      {innerText}
+      <span className="absolute inset-0 border-[.0625rem] border-red-500 bg-gradient-to-r from-red-500 to-rose-500 transition-opacity duration-500 group-hover:opacity-0"></span>
+      <span className="relative z-10 font-bold transition-all duration-500 group-hover:text-red-500">
+        {innerText}
+      </span>
     </button>
   );
 };

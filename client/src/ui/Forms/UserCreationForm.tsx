@@ -23,7 +23,7 @@ const UserCreationForm = () => {
 
   return (
     <form action="" className="flex flex-col">
-      <h1 className="mb-10 justify-center self-center text-4xl font-semibold">
+      <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">
         Employee user account creation form
       </h1>
 

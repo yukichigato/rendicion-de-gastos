@@ -20,9 +20,9 @@ const ExpenseReportCreationForm = () => {
   const fileInputRef = useRef(null);
 
   return (
-    <form action="" className="flex flex-col p-8">
-      <h1 className="mb-10 justify-center self-center text-4xl font-semibold">
-        Expense report submission creation form
+    <form action="" className="flex flex-col">
+      <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">
+        Expense report submission form
       </h1>
 
       <p className="mb-10">

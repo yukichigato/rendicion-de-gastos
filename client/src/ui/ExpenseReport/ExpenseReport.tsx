@@ -6,13 +6,16 @@ import DataText from "@/ui/ExpenseReport/DataText";
 import ExpenseReportHeader from "@/ui/ExpenseReport/ExpenseReportHeader";
 import AcceptCloseButtons from "@/ui/ExpenseReport/AcceptCloseButtons";
 import { ExpenseReportOptions } from "@/ui/ExpenseReport/utils";
+import ReportStatusIcon from "@/ui/ExpenseReport/ReportStatusIcon";
 
 const ExpenseReport = ({
   data,
   options,
+  location,
 }: {
   data: ExpenseReportData;
   options: ExpenseReportOptions;
+  location: string;
 }) => {
   const [rotation, setRotation] = useState("rotate-0");
   const [hidden, setHidden] = useState("h-0");
@@ -25,7 +28,6 @@ const ExpenseReport = ({
   const toggleHidden = () => {
     setMargin(margin === "mt-0" ? "mt-6" : "mt-0");
     setHidden((prev) => (prev === "h-0" ? "h-auto" : "h-0"));
-    console.log(hidden, margin);
   };
 
   const toggleExpenseReport = () => {
@@ -39,8 +41,11 @@ const ExpenseReport = ({
     >
       <header
         onClick={toggleExpenseReport}
-        className={`relative mb-2 flex cursor-pointer bg-gray-900 pl-4 text-lg text-white before:absolute before:left-0 before:h-full before:w-[1%] before:content-[''] ${options.bgcolor}`}
+        className={`relative mb-2 flex cursor-pointer items-center bg-gray-900 bg-gradient-to-r pl-4 text-lg text-white`}
       >
+        <span className="mr-4">
+          <ReportStatusIcon status={data.status} />
+        </span>
         <ExpenseReportHeader dataStatus={data.status} rotation={rotation} />
       </header>
 
@@ -62,7 +67,7 @@ const ExpenseReport = ({
         >
           <RiFileDownloadFill />
         </a>
-        <AcceptCloseButtons status={data.status} />
+        <AcceptCloseButtons status={data.status} location={location} />
       </section>
     </article>
   );

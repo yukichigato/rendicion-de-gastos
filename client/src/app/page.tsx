@@ -1,8 +1,9 @@
 import UserCreationForm from "@/ui/Forms/UserCreationForm";
-import ExpenseReportCreationForm from "@/ui/ExpenseReport/ExpenseReportCreationForm";
+import ExpenseReportCreationForm from "@/ui/Forms/ExpenseReportCreationForm";
 import LoginForm from "@/ui/Forms/LoginForm";
 import Table from "@/ui/Table/Table";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
+import Navbar from "@/ui/Navbar/Navbar";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 
 const Home = () => {
@@ -101,6 +102,9 @@ const Home = () => {
 
   return (
     <main className="flex flex-col">
+      <div className="mb-[2.25rem]">
+        <Navbar />
+      </div>
       <div className="flex w-full flex-col gap-2">
         {expenseReportData.map((report, index) => (
           <ExpenseReport
