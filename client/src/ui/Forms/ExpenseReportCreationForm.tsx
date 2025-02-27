@@ -39,7 +39,14 @@ const ExpenseReportCreationForm = () => {
           selectID={typeInputID}
           selectName="type"
           labelText="Expense type"
-          options={["Otros"]}
+          options={[
+            "Otros",
+            "Materiales",
+            "Social",
+            "Estadías",
+            "Necesidades",
+            "Alimentación",
+          ]}
           required
           refHook={typeInputRef}
         />

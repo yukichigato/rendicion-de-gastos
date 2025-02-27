@@ -11,11 +11,11 @@ import ReportStatusIcon from "@/ui/ExpenseReport/ReportStatusIcon";
 const ExpenseReport = ({
   data,
   options,
-  location,
+  location = "",
 }: {
   data: ExpenseReportData;
   options: ExpenseReportOptions;
-  location: string;
+  location?: string;
 }) => {
   const [rotation, setRotation] = useState("rotate-0");
   const [hidden, setHidden] = useState("h-0");
