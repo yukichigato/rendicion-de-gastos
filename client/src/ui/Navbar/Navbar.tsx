@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
 
-const Navbar = ({ user }: { user: string }) => {
+const Navbar = () => {
   const navbarRef = useRef<HTMLDetailsElement>(null);
   const [rotation, setRotation] = useState("rotate-0");
 
