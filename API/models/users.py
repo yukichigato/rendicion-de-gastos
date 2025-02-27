@@ -1,11 +1,11 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
 
-def getUsers (limit, offset):
+def findUsers (limit, offset):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT profile_picture_url, name, rut, tel, email, status, area FROM users LIMIT %s OFFSET %s;",
+            "SELECT name, rut, tel, email, status, area FROM users LIMIT %s OFFSET %s;",
             (limit, offset)
         )
         rows = cursor.fetchall()
@@ -18,7 +18,7 @@ def getUsers (limit, offset):
         cursor.close()
         return None
 
-def getUserByID (id):
+def findUserByID (id):
     cursor = connection.cursor()
     try:
         cursor.execute(
@@ -51,6 +51,23 @@ def createUser (profile_picture_url, name, rut, password, tel, email, status, ar
         cursor.close()
         return newID
     
+    except DatabaseError as error:
+        print(f"Database error: {error}")
+        connection.rollback()
+        cursor.close()
+        return None
+    
+
+def findUserByEmail(email):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "SELECT id, name, rut, password, status FROM users WHERE email = %s",
+            (email)
+        )
+        userInfo = cursor.fetchall()
+        cursor.close()
+        return userInfo
     except DatabaseError as error:
         print(f"Database error: {error}")
         connection.rollback()

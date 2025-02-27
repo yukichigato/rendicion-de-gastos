@@ -1,3 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-console.log("Hello world!");
+import express from "express";
+import { createRouter } from "./router.js";
+import { PORT } from "./config.js";
+const app = express();
+const appRouter = createRouter();
+app.use(express.json());
+app.use("/api", appRouter);
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
