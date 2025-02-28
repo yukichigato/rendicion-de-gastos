@@ -47,6 +47,10 @@ const page = () => {
     },
   ];
 
+  /*
+   *  @todo : Remove static data above.
+   */
+
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">
       <aside className="border-r-[.0625rem] border-gray-300 p-8">

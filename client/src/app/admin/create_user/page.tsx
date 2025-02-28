@@ -1,13 +1,16 @@
 import React from "react";
 import UserCreationForm from "@/ui/Forms/UserCreationForm";
 import { SALT_ROUNDS } from "@/config";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 const page = () => {
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
-    const hashedPassword: string = await bcrypt.hash(formData.get("password") as string, Number(SALT_ROUNDS))
+    const hashedPassword: string = await bcrypt.hash(
+      formData.get("password") as string,
+      Number(SALT_ROUNDS),
+    );
 
     const userData = {
       name: formData.get("name"),
@@ -29,10 +32,16 @@ const page = () => {
       });
 
       const responseData = await response.json;
-
-      console.log(responseData);
+      /*
+       *  @todo : Do something with responseData
+       *  @todo : Use useTransition()
+       */
     } catch (error: any) {
       console.error(error.message);
+
+      /*
+       *  @todo : Better error handling
+       */
     }
   };
 

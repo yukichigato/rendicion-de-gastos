@@ -19,6 +19,10 @@ const ExpenseReportCreationForm = () => {
   const amountInputRef = useRef(null);
   const fileInputRef = useRef(null);
 
+  /*
+   *  @todo : Do we even need the useRefs? Create proper server action
+   */
+
   return (
     <form action="" className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">

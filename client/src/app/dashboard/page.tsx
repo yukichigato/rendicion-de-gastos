@@ -46,6 +46,9 @@ const page = () => {
       backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
     },
   ];
+  /*
+   *  @todo : Remove static data above.
+   */
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">

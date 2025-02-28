@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
@@ -65,6 +66,9 @@ const Navbar = () => {
         <Link href="login" onClick={closeMenu} className="hover:cursor-pointer">
           <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:bg-white hover:text-red-500">
             Log-out
+            {/*
+             *  @todo : Adding function that clears the "auth_cookie" cookie.
+             */}
           </li>
         </Link>
       </ul>

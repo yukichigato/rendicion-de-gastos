@@ -3,12 +3,9 @@ import React, { useId, useRef } from "react";
 import InputField from "@/ui/InputField";
 import SubmitButton from "@/ui/SubmitButton";
 
-const LoginForm = ({ formAction}: {formAction: FormActionFunction}) => {
+const LoginForm = ({ formAction }: { formAction: FormActionFunction }) => {
   const emailInputID = useId();
   const passwordInputID = useId();
-
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
 
   return (
     <form action={formAction} className="flex flex-col">
@@ -28,7 +25,6 @@ const LoginForm = ({ formAction}: {formAction: FormActionFunction}) => {
           labelText="Email"
           placeholder="Your work email"
           required
-          refHook={emailInputRef}
         />
       </div>
 
@@ -40,7 +36,6 @@ const LoginForm = ({ formAction}: {formAction: FormActionFunction}) => {
           labelText="Password"
           placeholder="Your password"
           required
-          refHook={passwordInputRef}
         />
       </div>
 

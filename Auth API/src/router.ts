@@ -1,12 +1,18 @@
 import { Router } from "express";
-import { logout, userLogin, validateToken } from "./controller.js";
+import { userLogin, validateToken } from "./controller.js";
 
 export const createRouter = () => {
   const router = Router();
 
+  /*
+   *  @todo : Comment function
+   */
   router.post("/login", userLogin);
+
+  /*
+   *  @todo : Comment function
+   */
   router.get("/authentication", validateToken);
-  router.get("/logout", logout);
 
   return router;
 };
