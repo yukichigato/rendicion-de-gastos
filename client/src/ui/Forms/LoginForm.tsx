@@ -3,7 +3,7 @@ import React, { useId, useRef } from "react";
 import InputField from "@/ui/InputField";
 import SubmitButton from "@/ui/SubmitButton";
 
-const LoginForm = () => {
+const LoginForm = ({ formAction}: {formAction: FormActionFunction}) => {
   const emailInputID = useId();
   const passwordInputID = useId();
 
@@ -11,7 +11,7 @@ const LoginForm = () => {
   const passwordInputRef = useRef(null);
 
   return (
-    <form action="" className="flex flex-col">
+    <form action={formAction} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-rose-500">
         Good to see you again
       </h1>

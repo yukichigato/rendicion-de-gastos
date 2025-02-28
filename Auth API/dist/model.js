@@ -15,7 +15,7 @@ export const modelUserLogin = async (data) => {
         throw new Error("User not found");
     }
     const userData = await response.json();
-    console.log(userData.password, password);
+    console.log(userData);
     // Comparing password with hashed password
     const isValidPassword = await bcrypt.compare(password, userData.password);
     if (!isValidPassword) {
@@ -28,7 +28,6 @@ export const modelUserLogin = async (data) => {
         rut: userData.rut,
         status: userData.status,
     };
-    console.log(publicUserData);
     const token = jwt.sign(publicUserData, SECRET_JWT_KEY, {
         expiresIn: "1h",
     });

@@ -14,14 +14,8 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
   // Validating email and password
   try {
     const data = await modelUserLogin(validation.data);
-    res.json(data);
-    // res
-    //   .cookie("auth_token", data.token, {
-    //     httpOnly: true,
-    //     sameSite: "strict",
-    //     maxAge: 1000 * 60 * 60,
-    //   })
-    //   .send(data);
+
+    res.json(JSON.stringify(data.token));
   } catch (error: any) {
     res.status(401).json({ message: error.message });
   }
