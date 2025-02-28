@@ -3,6 +3,9 @@ import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import ExpenseReportCreationForm from "@/ui/Forms/ExpenseReportCreationForm";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 
+/*
+ * @todo: Enable protected route
+ */
 const page = () => {
   const expenseReportData: ExpenseReportData[] = [
     {

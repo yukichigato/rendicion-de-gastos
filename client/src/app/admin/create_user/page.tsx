@@ -3,6 +3,10 @@ import UserCreationForm from "@/ui/Forms/UserCreationForm";
 import { SALT_ROUNDS } from "@/config";
 import bcrypt from "bcrypt";
 
+/*
+ * @todo: Enable protected route
+ */
+
 const page = () => {
   const handleSubmit = async (formData: FormData) => {
     "use server";

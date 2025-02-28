@@ -26,10 +26,9 @@ export const handleLogIn = async (formData: FormData) => {
     Cookies.set(`auth_cookie`, token, { expires: 7 });
     /*
      *  @todo : Use of React.useTransition()
-     *  @todo : Redirect to app/profile-submissions
      */
   } catch (error: any) {
-    console.error(NEXT_PUBLIC_AUTH_API_BASEURL);
+    console.error(error.message);
     /*
      *  @todo : Better error handling
      */
