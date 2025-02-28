@@ -4,7 +4,11 @@ import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
 import SubmitButton from "@/ui/SubmitButton";
 
-const UserCreationForm = () => {
+const UserCreationForm = ({
+  formAction,
+}: {
+  formAction: FormActionFunction;
+}) => {
   const nameInputID = useId();
   const rutInputID = useId();
   const passwordInputID = useId();
@@ -13,16 +17,8 @@ const UserCreationForm = () => {
   const areaInputID = useId();
   const statusInputID = useId();
 
-  const nameInputRef = useRef(null);
-  const rutInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const telInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const areaInputRef = useRef(null);
-  const statusInputRef = useRef(null);
-
   return (
-    <form action="" className="flex flex-col">
+    <form action={formAction} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">
         Employee user account creation form
       </h1>
@@ -40,7 +36,6 @@ const UserCreationForm = () => {
           labelText="Name"
           placeholder="Full Name"
           required
-          refHook={nameInputRef}
         />
       </div>
 
@@ -52,7 +47,6 @@ const UserCreationForm = () => {
           labelText="RUT"
           placeholder="12.345.678-9"
           required
-          refHook={rutInputRef}
         />
       </div>
 
@@ -64,7 +58,6 @@ const UserCreationForm = () => {
           labelText="Password"
           placeholder="Input password here"
           required
-          refHook={passwordInputRef}
         />
       </div>
 
@@ -75,7 +68,6 @@ const UserCreationForm = () => {
           inputName="tel"
           labelText="Telephone Number"
           placeholder="+56 9 1234 5678"
-          refHook={telInputRef}
         />
       </div>
 
@@ -87,7 +79,6 @@ const UserCreationForm = () => {
           labelText="Email"
           placeholder="email@provider.com"
           required
-          refHook={emailInputRef}
         />
       </div>
 
@@ -98,7 +89,6 @@ const UserCreationForm = () => {
           labelText="Asigned Area"
           options={["Otros"]}
           required
-          refHook={areaInputRef}
         />
       </div>
 
@@ -109,7 +99,6 @@ const UserCreationForm = () => {
           labelText="Current employee status"
           options={["Trabajador"]}
           required
-          refHook={statusInputRef}
         />
       </div>
 

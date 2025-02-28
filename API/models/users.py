@@ -36,15 +36,15 @@ def findUserByID (id):
         return None
 
 
-def createUser (profile_picture_url, name, rut, password, tel, email, status, area):
+def createUser (name, rut, password, tel, email, status, area):
     cursor = connection.cursor()
     try:
         cursor.execute(
             """
-            INSERT INTO users (profile_picture_url, name, rut, password, tel, email, status, area)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;
+            INSERT INTO users (name, rut, password, tel, email, status, area)
+            VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id;
             """,
-            (profile_picture_url, name, rut, password, tel, email, status, area)
+            (name, rut, password, tel, email, status, area)
         )
         newID = cursor.fetchone()[0]
         connection.commit()

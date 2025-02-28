@@ -19,3 +19,18 @@ interface ExpenseReportData {
   comment?: string;
   backupURL: string;
 }
+
+interface UserData {
+  name: string;
+  rut: string;
+  password: string;
+  tel: string;
+  email: string;
+  area: string;
+  status: string;
+}
+
+type FormActionFunction =
+  | string
+  | ((formData: FormData) => void | Promise<void>)
+  | undefined;

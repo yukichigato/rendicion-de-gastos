@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 class UserData(BaseModel):
-    profile_picture_url: str
     name: str
     rut: str
     password: str

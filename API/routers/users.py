@@ -21,7 +21,7 @@ def getUser(id):
         raise HTTPException(status_code = 500, detail="Server Error")
     
 @userRouter.get("/")
-def getUserCredentials(email: str):
+def getUserCredentials(email: str = ""):
     try:
         rows = findUserByEmail(email)
         return rows
@@ -32,7 +32,6 @@ def getUserCredentials(email: str):
 def postUser(user: UserData):
     try:
         newID = createUser(
-            user.profile_picture_url,
             user.name,
             user.rut,
             user.password,
