@@ -1,5 +1,5 @@
-from fastapi import APIRouter, HTTPException
-from ..models.expense_report import createReport, getReports, getReportByID
+from fastapi import APIRouter, HTTPException, Query
+from ..models.expense_report import createOne, getMany, getOne
 from ..types import *
 
 reportRouter = APIRouter(prefix="/api/expense_report")
@@ -7,28 +7,42 @@ reportRouter = APIRouter(prefix="/api/expense_report")
 @reportRouter.post("")
 def postReport(reportData: Report):
     try:
-        newID = createReport(
+        newID = createOne(
             reportData.author_id,
             reportData.type,
             reportData.amount,
             reportData.backup_url
         )
-        return { "id": newID }
+        return newID
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
 @reportRouter.get("/{id}")
-def getReport(id: str):
+def getReportByID(id: str):             # TODO : Update this with the proper UUIDv4 type
     try:
-        rows = getReportByID(id)
+        rows = getOne(id)
         return rows
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
 @reportRouter.get('')
-def getAllRerports(limit: int = 999, offset: int = 0):
+def getReports(
+    author_id: str = Query(None),   # TODO : Update this with the proper UUIDv4 type
+    type: str = Query(None),        # TODO : Update this with the proper ExpenseType type
+    minAmount: int = Query(None),
+    maxAmount: int = Query(None),
+    limit: int = Query(999),
+    offset: int = Query(0)
+):
     try:
-        rows = getReports(limit, offset)
+        rows = getMany(
+            author_id,
+            type,
+            minAmount,
+            maxAmount,
+            limit,
+            offset
+        )
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
+        raise HTTPException(status_code = 500, detail = f"Server Error {str(error)}")

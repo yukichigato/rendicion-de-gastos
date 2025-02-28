@@ -25,11 +25,11 @@ def findUserByID (id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT profile_picture_url, name, rut, tel, email, status, area FROM users WHERE id = %s",
+            "SELECT name, rut, tel, email, status, area FROM users WHERE id = %s",
             (id,)   # Honestly this is really stupid. 
                     # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
         )
-        rows = cursor.fetchone()[0]
+        rows = cursor.fetchone()
         cursor.close()
         if rows is None:
             return []
