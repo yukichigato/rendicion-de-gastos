@@ -17,6 +17,8 @@ def getReports (limit: int, offset: int) -> Union[ List[Tuple[Report]], None ]:
         print(f"Database error: {error}")
         connection.rollback()
         cursor.close()
+        if rows is None:
+            return []
         return None
     
 def getReportByID (id: str) -> Union[ Tuple[Report], None ]:
@@ -24,15 +26,19 @@ def getReportByID (id: str) -> Union[ Tuple[Report], None ]:
     try:
         cursor.execute(
             "SELECT author_id, title, details, type, amount, backup_url FROM expense_report WHERE id = %s",
-            (id)
+            (id,)
         )
         rows: Tuple[Report] = cursor.fetchone()[0]
         cursor.close()
+        if rows is None:
+            return []
         return rows
     except DatabaseError as error:
         print(f"Database error: {error}")
         connection.rollback()
         cursor.close()
+        if rows is None:
+            return []
         return None
     
 def createReport (
@@ -52,6 +58,8 @@ def createReport (
         newID: Tuple[UUID] = cursor.fetchone()[0]
         connection.commit()
         cursor.close()
+        if newID is None:
+            return []
         return newID
     
     except DatabaseError as error:

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS expense_report (
     author_id   UUID NOT NULL,
     "type"      expense_type NOT NULL DEFAULT 'Otros',
     amount      INTEGER NOT NULL CHECK (amount >= 0) DEFAULT 0,
-    backup_url  TEXT NOT NULL DEFAULT "",
+    backup_url  TEXT NOT NULL DEFAULT '',
     created_at  TIMESTAMP DEFAULT NOW(),
     "status"    expense_report_status NOT NULL DEFAULT 'Pending',
     comment     TEXT DEFAULT '',

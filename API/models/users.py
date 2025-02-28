@@ -17,6 +17,8 @@ def findUsers (limit: int, offset: int) -> Union[List[Tuple[PublicUser]], None]:
         print(f"Database error: {error}")
         connection.rollback()
         cursor.close()
+        if rows is None:
+            return []
         return None
 
 def findUserByID (id: UUID) -> Union[Tuple[PublicUser], None]:
@@ -24,16 +26,21 @@ def findUserByID (id: UUID) -> Union[Tuple[PublicUser], None]:
     try:
         cursor.execute(
             "SELECT profile_picture_url, name, rut, tel, email, status, area FROM users WHERE id = %s",
-            (id)
+            (id,)   # Honestly this is really stupid. 
+                    # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
         )
         rows: Tuple[PublicUser] = cursor.fetchone()[0]
         cursor.close()
+        if rows is None:
+            return []
         return rows
     
     except DatabaseError as error:
         print(f"Database error: {error}")
         connection.rollback()
         cursor.close()
+        if rows is None:
+            return []
         return None
 
 def findUserByEmail(email: str) -> Union[ Tuple[TokenUser], None ]:
@@ -41,13 +48,16 @@ def findUserByEmail(email: str) -> Union[ Tuple[TokenUser], None ]:
     try:
         cursor.execute(
             "SELECT id, name, rut, password, status FROM users WHERE email = %s",
-            (email)
+            (email,)    # Honestly this is really stupid. 
+                        # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
         )
-        userInfo: Tuple[TokenUser] = cursor.fetchOne()[0]
+        userInfo: Tuple[TokenUser] = cursor.fetchone()
         cursor.close()
+        if userInfo is None:
+            return []
         return userInfo
     except DatabaseError as error:
-        print(f"Database error: {error}")
+        print(f"Database error: {error}, {email}")
         connection.rollback()
         cursor.close()
         return None

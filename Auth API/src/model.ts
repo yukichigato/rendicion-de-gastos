@@ -10,7 +10,7 @@ export const modelUserLogin = async (data: {
   const { email, password } = data;
 
   // Getting user by email
-  const response = await fetch(DB_API_URL, {
+  const response = await fetch(`${DB_API_URL}/api/users?email=${email}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,6 +23,8 @@ export const modelUserLogin = async (data: {
   }
 
   const userData: UserData = await response.json();
+
+  console.log(userData);
 
   // Comparing password with hashed password
   const isValidPassword = await bcrypt.compare(password, userData.password);

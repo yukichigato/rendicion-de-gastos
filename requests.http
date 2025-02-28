@@ -1,1 +1,1 @@
-GET http://localhost:8000/api/users?email=contacto@bodoque.cl
+GET http://localhost:8000/api/users?email=yukichi%40gmail.com

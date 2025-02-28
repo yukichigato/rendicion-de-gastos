@@ -1,14 +1,18 @@
 import React from "react";
 import UserCreationForm from "@/ui/Forms/UserCreationForm";
+import { SALT_ROUNDS } from "@/config";
+import bcrypt from 'bcrypt'
 
 const page = () => {
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
+    const hashedPassword: string = await bcrypt.hash(formData.get("password") as string, Number(SALT_ROUNDS))
+
     const userData = {
       name: formData.get("name"),
       rut: formData.get("rut"),
-      password: formData.get("password"),
+      password: hashedPassword,
       tel: formData.get("tel"),
       email: formData.get("email"),
       area: formData.get("area"),

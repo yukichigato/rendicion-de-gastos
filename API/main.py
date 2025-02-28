@@ -9,3 +9,5 @@ app.include_router(userRouter)
 
 # Endpoint: .../api/expense_report
 app.include_router(reportRouter)
+
+app.router.redirect_slashes = False
