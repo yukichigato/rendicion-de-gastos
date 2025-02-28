@@ -80,7 +80,7 @@ def createUser (
             """,
             (name, rut, password, tel, email, status, area)
         )
-        newID = cursor.fetchone()[0]
+        newID = cursor.fetchone()
         connection.commit()
         cursor.close()
         return newID

@@ -42,6 +42,6 @@ def postUser(user: NewUser):
             user.status,
             user.area
         )
-        return { "id": newID }
+        return newID
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
