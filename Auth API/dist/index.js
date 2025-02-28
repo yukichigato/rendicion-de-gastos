@@ -6,7 +6,13 @@ import { PORT } from "./config.js";
 import cookieParser from "cookie-parser";
 const app = express();
 const appRouter = createRouter();
+/*
+ *  @todo : Hopefully move this to a middleware.ts
+ */
 app.use(express.json());
+/*
+ *  @todo : Set up cors proper options.
+ */
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true,

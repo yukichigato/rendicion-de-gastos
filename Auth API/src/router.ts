@@ -12,7 +12,7 @@ export const createRouter = () => {
   /*
    *  @todo : Comment function
    */
-  router.get("/authentication", validateToken);
+  router.post("/authentication", validateToken);
 
   return router;
 };

@@ -4,13 +4,11 @@ from ..types import *
 
 reportRouter = APIRouter(prefix="/api/expense_report")
 
-@reportRouter.post("/")
+@reportRouter.post("")
 def postReport(reportData: Report):
     try:
         newID = createReport(
             reportData.author_id,
-            reportData.title,
-            reportData.details,
             reportData.type,
             reportData.amount,
             reportData.backup_url
@@ -27,7 +25,7 @@ def getReport(id: str):
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
-@reportRouter.get('/')
+@reportRouter.get('')
 def getAllRerports(limit: int = 999, offset: int = 0):
     try:
         rows = getReports(limit, offset)

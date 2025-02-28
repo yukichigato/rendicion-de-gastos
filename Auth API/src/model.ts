@@ -43,11 +43,11 @@ export const modelUserLogin = async (data: {
     status: userData.status,
   };
 
+  // * Token expiration is not synced with Cookie expiration time
+  // TODO : Sync the expiration times
+
   const token = jwt.sign(publicUserData, SECRET_JWT_KEY, {
-    expiresIn: "1h",
-    /*
-     *  @todo : Sync expire time with cookie
-     */
+    expiresIn: "72h",
   });
 
   return { publicUserData, token };
@@ -59,11 +59,19 @@ export const modelUserLogin = async (data: {
 export const modelValidateToken = (input: { token: string }) => {
   const { token } = input;
 
+  const realtoken = token.slice(1, -1);
+  // ! This is really bad, but for whatever reason the token is getting sent
+  // ! with extra quotation marks ('" ... "') instead of (" ... ").
+  // TODO: Fix
+
+  console.log(`Token: [${realtoken}] | Key: [${SECRET_JWT_KEY}]`);
+
   try {
-    const data = jwt.verify(token, SECRET_JWT_KEY);
+    const data = jwt.verify(realtoken, SECRET_JWT_KEY);
+    console.log("Token verified, data: ", data);
     return data;
   } catch (error: any) {
-    throw new Error("Invalid token");
+    throw new Error(error.message);
     /*
      *  @todo : Better error handling
      */

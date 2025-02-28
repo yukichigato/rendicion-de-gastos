@@ -3,10 +3,18 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const navbarRef = useRef<HTMLDetailsElement>(null);
   const [rotation, setRotation] = useState("rotate-0");
+  const router = useRouter();
+
+  const logout = () => {
+    Cookies.remove("auth_cookie");
+    router.push("/login");
+  };
 
   const toggleRotation = () => {
     setRotation((prev) => (prev === "rotate-0" ? "rotate-90" : "rotate-0"));
@@ -63,7 +71,14 @@ const Navbar = () => {
             Dashboard
           </li>
         </Link>
-        <Link href="login" onClick={closeMenu} className="hover:cursor-pointer">
+        <Link
+          href="login"
+          onClick={() => {
+            closeMenu();
+            logout();
+          }}
+          className="hover:cursor-pointer"
+        >
           <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:bg-white hover:text-red-500">
             Log-out
             {/*

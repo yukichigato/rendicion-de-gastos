@@ -1,6 +1,6 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
-from ..types import PublicUser, UUID, TokenUser
+from ..types import PublicUser, TokenUser
 
 def findUsers (limit: int, offset: int):
     cursor = connection.cursor()
@@ -21,7 +21,7 @@ def findUsers (limit: int, offset: int):
             return []
         return None
 
-def findUserByID (id: UUID):
+def findUserByID (id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(

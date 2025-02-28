@@ -1,14 +1,56 @@
 "use client";
-import React, { useId, useRef } from "react";
+
+import { useId } from "react";
+import Cookies from "js-cookie";
+import { NEXT_PUBLIC_AUTH_API_BASEURL } from "@/config";
 import InputField from "@/ui/InputField";
 import SubmitButton from "@/ui/SubmitButton";
 
-const LoginForm = ({ formAction }: { formAction: FormActionFunction }) => {
+const LoginForm = ({ redirectFunction }: { redirectFunction: Function }) => {
   const emailInputID = useId();
   const passwordInputID = useId();
 
+  const handleLogin = async (formData: FormData) => {
+    const credentials = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    try {
+      const response = await fetch(
+        `${NEXT_PUBLIC_AUTH_API_BASEURL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const token = await response.json();
+
+      Cookies.set(`auth_cookie`, token, { expires: 7 });
+
+      redirectFunction();
+      /*
+       *  @todo : Use of React.useTransition()
+       */
+    } catch (error: any) {
+      console.error(error.message);
+      /*
+       *  @todo : Better error handling
+       */
+    }
+  };
+
   return (
-    <form action={formAction} className="flex flex-col">
+    <form action={handleLogin} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-rose-500">
         Good to see you again
       </h1>

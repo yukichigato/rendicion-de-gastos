@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from uuid import UUID
 from typing import Optional
 
 class NewUser(BaseModel):
@@ -20,18 +19,16 @@ class PublicUser(BaseModel):
     area: str = 'Otros'
 
 class TokenUser(PublicUser):
-    id: UUID
+    id: str
     password: str
 
 class User(PublicUser):
-    id: UUID
+    id: str
     password: str
     tel: str = ''
 
 class Report(BaseModel):
-    author_id: UUID
-    title: str
-    details: str = ''
+    author_id: str
     type: str = 'Otros'
     amount: int
     backup_url: str

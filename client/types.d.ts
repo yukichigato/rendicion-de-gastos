@@ -11,6 +11,7 @@ type DateType =
   `${digit}${digit}${digit}${digit}-${digit}${digit}-${digit}${digit}`;
 
 interface ExpenseReportData {
+  id: string;
   author: string;
   date: DateType;
   type: ExpenseType;
@@ -20,10 +21,10 @@ interface ExpenseReportData {
   backupURL: string;
 }
 
-interface UserData {
+interface PublicUser {
+  id: UUID;
   name: string;
   rut: string;
-  password: string;
   tel: string;
   email: string;
   area: string;

@@ -1,12 +1,11 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
-from ..types import UUID
     
 def getReports (limit: int, offset: int):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT author_id, title, details, type, amount, backup_url FROM expense_report LIMIT %s OFFSET %s;",
+            "SELECT author_id, type, amount, backup_url FROM expense_report LIMIT %s OFFSET %s;",
             (limit, offset)
         )
         rows = cursor.fetchall()
@@ -25,7 +24,7 @@ def getReportByID (id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT author_id, title, details, type, amount, backup_url FROM expense_report WHERE id = %s",
+            "SELECT author_id, type, amount, backup_url FROM expense_report WHERE id = %s",
             (id,)
         )
         rows = cursor.fetchone()[0]
@@ -42,9 +41,7 @@ def getReportByID (id: str):
         return None
     
 def createReport (
-    author_id: UUID,
-    title: str,
-    details: str,
+    author_id: str,
     type: str,
     amount: int,
     backup_url: str
@@ -52,8 +49,8 @@ def createReport (
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "INSERT INTO expense_report (author_id, title, details, type, amount, backup_url) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
-            (author_id, title, details, type, amount, backup_url)
+            "INSERT INTO expense_report (author_id, type, amount, backup_url) VALUES (%s, %s, %s, %s) RETURNING id",
+            (author_id, type, amount, backup_url)
         )
         newID = cursor.fetchone()[0]
         connection.commit()

@@ -33,6 +33,9 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
  */
 export const validateToken = (req: Request, res: Response): void => {
   try {
+    // ! This is NOT verified with Zod
+    // TODO : Implement Zod verification
+
     const data = modelValidateToken(req.body);
     res.json(data);
   } catch (error: any) {
