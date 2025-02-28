@@ -1,14 +1,15 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
+from ..types import Union, Tuple, List, PublicUser, Cursor, UUID, TokenUser
 
-def findUsers (limit, offset):
-    cursor = connection.cursor()
+def findUsers (limit: int, offset: int) -> Union[List[Tuple[PublicUser]], None]:
+    cursor: Cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT name, rut, tel, email, status, area FROM users LIMIT %s OFFSET %s;",
             (limit, offset)
         )
-        rows = cursor.fetchall()
+        rows: List[Tuple[PublicUser]] = cursor.fetchall()
         cursor.close()
         return rows
     
@@ -18,14 +19,14 @@ def findUsers (limit, offset):
         cursor.close()
         return None
 
-def findUserByID (id):
-    cursor = connection.cursor()
+def findUserByID (id: UUID) -> Union[Tuple[PublicUser], None]:
+    cursor: Cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT profile_picture_url, name, rut, tel, email, status, area FROM users WHERE id = %s",
             (id)
         )
-        rows = cursor.fetchone()[0]
+        rows: Tuple[PublicUser] = cursor.fetchone()[0]
         cursor.close()
         return rows
     
@@ -35,9 +36,32 @@ def findUserByID (id):
         cursor.close()
         return None
 
+def findUserByEmail(email: str) -> Union[ Tuple[TokenUser], None ]:
+    cursor: Cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "SELECT id, name, rut, password, status FROM users WHERE email = %s",
+            (email)
+        )
+        userInfo: Tuple[TokenUser] = cursor.fetchOne()[0]
+        cursor.close()
+        return userInfo
+    except DatabaseError as error:
+        print(f"Database error: {error}")
+        connection.rollback()
+        cursor.close()
+        return None
 
-def createUser (name, rut, password, tel, email, status, area):
-    cursor = connection.cursor()
+def createUser (
+    name: str,
+    rut: str,
+    password: str,
+    tel: str,
+    email: str,
+    status: str,
+    area: str
+) -> Union[ Tuple[UUID], None]:
+    cursor: Cursor = connection.cursor()
     try:
         cursor.execute(
             """
@@ -46,7 +70,7 @@ def createUser (name, rut, password, tel, email, status, area):
             """,
             (name, rut, password, tel, email, status, area)
         )
-        newID = cursor.fetchone()[0]
+        newID: Tuple[UUID] = cursor.fetchone()[0]
         connection.commit()
         cursor.close()
         return newID
@@ -57,19 +81,3 @@ def createUser (name, rut, password, tel, email, status, area):
         cursor.close()
         return None
     
-
-def findUserByEmail(email):
-    cursor = connection.cursor()
-    try:
-        cursor.execute(
-            "SELECT id, name, rut, password, status FROM users WHERE email = %s",
-            (email)
-        )
-        userInfo = cursor.fetchall()
-        cursor.close()
-        return userInfo
-    except DatabaseError as error:
-        print(f"Database error: {error}")
-        connection.rollback()
-        cursor.close()
-        return None

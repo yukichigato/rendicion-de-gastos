@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException
 from ..models.expense_report import createReport, getReports, getReportByID
-from ..types import ReportData
+from ..types import *
 
 reportRouter = APIRouter(prefix="/api/expense_report")
 
 @reportRouter.post("/")
-def postReport(reportData: ReportData):
+def postReport(reportData: Report):
     try:
-        newID = createReport(
+        newID: Tuple[UUID] = createReport(
             reportData.author_id,
             reportData.title,
             reportData.details,
@@ -17,20 +17,20 @@ def postReport(reportData: ReportData):
         )
         return { "id": newID }
     except Exception as error:
-        raise HTTPException(status_code = 500, detail = "Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
 @reportRouter.get("/{id}")
-def getReport():
+def getReport(id: str):
     try:
-        rows = getReportByID(id)
+        rows: Tuple[Report] = getReportByID(id)
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail = "Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
 @reportRouter.get('/')
-def getAllRerports(limit = 999, offset = 0):
+def getAllRerports(limit: int = 999, offset: int = 0):
     try:
-        rows = getReports(limit, offset)
+        rows: List[Tuple[Report]] = getReports(limit, offset)
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail = "Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")

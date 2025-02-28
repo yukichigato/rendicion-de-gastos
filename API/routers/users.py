@@ -1,37 +1,37 @@
 from fastapi import APIRouter, HTTPException
 from ..models.users import findUsers, findUserByID, createUser, findUserByEmail
-from ..types import UserData
+from ..types import *
 
 userRouter = APIRouter(prefix="/api/users")
 
 @userRouter.get("/")
-def getAllUsers(limit = 999, offset = 0):
+def getAllUsers(limit: int = 999, offset: int = 0):
     try:
-        rows = findUsers(limit, offset)
+        rows: List[Tuple[PublicUser]] = findUsers(limit, offset)
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail="Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
 
 @userRouter.get("/{id}")
-def getUser(id):
+def getUser(id: str):
     try:
-        rows = findUserByID(id)
+        rows: Tuple[PublicUser] = findUserByID(id)
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail="Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
     
 @userRouter.get("/")
 def getUserCredentials(email: str = ""):
     try:
-        rows = findUserByEmail(email)
+        rows: Tuple[PublicUser] = findUserByEmail(email)
         return rows
     except Exception as error:
-        raise HTTPException(status_code = 500, detail=f"Server Error ${str(error)}")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
 
 @userRouter.post("/")
-def postUser(user: UserData):
+def postUser(user: User):
     try:
-        newID = createUser(
+        newID: Tuple[UUID] = createUser(
             user.name,
             user.rut,
             user.password,
@@ -42,4 +42,4 @@ def postUser(user: UserData):
         )
         return { "id": newID }
     except Exception as error:
-        raise HTTPException(status_code = 500, detail="Server Error")
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
