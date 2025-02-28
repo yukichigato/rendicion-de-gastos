@@ -17,6 +17,7 @@ export const modelUserLogin = async (data) => {
         throw new Error("User not found");
     }
     const userData = await response.json();
+    console.log(email, password, userData.password);
     const isValidPassword = await bcrypt.compare(password, userData.password);
     if (!isValidPassword) {
         throw new Error("Invalid password");
