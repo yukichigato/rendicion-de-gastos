@@ -7,7 +7,7 @@ reportRouter = APIRouter(prefix="/api/expense_report")
 @reportRouter.post("/")
 def postReport(reportData: Report):
     try:
-        newID: Tuple[UUID] = createReport(
+        newID = createReport(
             reportData.author_id,
             reportData.title,
             reportData.details,
@@ -22,7 +22,7 @@ def postReport(reportData: Report):
 @reportRouter.get("/{id}")
 def getReport(id: str):
     try:
-        rows: Tuple[Report] = getReportByID(id)
+        rows = getReportByID(id)
         return rows
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")
@@ -30,7 +30,7 @@ def getReport(id: str):
 @reportRouter.get('/')
 def getAllRerports(limit: int = 999, offset: int = 0):
     try:
-        rows: List[Tuple[Report]] = getReports(limit, offset)
+        rows = getReports(limit, offset)
         return rows
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")

@@ -10,13 +10,14 @@ export const userLogin = async (req, res) => {
     // Validating email and password
     try {
         const data = await modelUserLogin(validation.data);
-        res
-            .cookie("auth_token", data.token, {
-            httpOnly: true,
-            sameSite: "strict",
-            maxAge: 1000 * 60 * 60,
-        })
-            .send(data);
+        res.json(data);
+        // res
+        //   .cookie("auth_token", data.token, {
+        //     httpOnly: true,
+        //     sameSite: "strict",
+        //     maxAge: 1000 * 60 * 60,
+        //   })
+        //   .send(data);
     }
     catch (error) {
         res.status(401).json({ message: error.message });

@@ -1,1 +1,7 @@
-GET http://localhost:8000/api/users?email=yukichi%40gmail.com
+POST http://localhost:8001/api/login
+Content-Type: application/json
+
+{
+  "email": "yukichi@gmail.com",
+  "password": "yukichi"
+}

@@ -3,19 +3,19 @@ import bcrypt from "bcrypt";
 import { SECRET_JWT_KEY, DB_API_URL } from "./config.js";
 export const modelUserLogin = async (data) => {
     const { email, password } = data;
+    console.log(email, DB_API_URL);
+    const params = new URLSearchParams({
+        email,
+    });
     // Getting user by email
-    const response = await fetch(`${DB_API_URL}/api/users?email=${email}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+    const response = await fetch(`${DB_API_URL}/api/users?${params.toString()}`, {
+        method: "GET",
     });
     if (!response.ok) {
         throw new Error("User not found");
     }
     const userData = await response.json();
-    console.log(userData);
+    console.log(userData.password, password);
     // Comparing password with hashed password
     const isValidPassword = await bcrypt.compare(password, userData.password);
     if (!isValidPassword) {
@@ -28,6 +28,7 @@ export const modelUserLogin = async (data) => {
         rut: userData.rut,
         status: userData.status,
     };
+    console.log(publicUserData);
     const token = jwt.sign(publicUserData, SECRET_JWT_KEY, {
         expiresIn: "1h",
     });

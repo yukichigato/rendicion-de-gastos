@@ -1,7 +1,6 @@
 from pydantic import BaseModel
-from typing import List, Tuple, Union, Optional
 from uuid import UUID
-from psycopg2.extensions import cursor as Cursor
+from typing import Optional
 
 class NewUser(BaseModel):
     name: str

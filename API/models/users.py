@@ -1,15 +1,15 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
-from ..types import Union, Tuple, List, PublicUser, Cursor, UUID, TokenUser
+from ..types import PublicUser, UUID, TokenUser
 
-def findUsers (limit: int, offset: int) -> Union[List[Tuple[PublicUser]], None]:
-    cursor: Cursor = connection.cursor()
+def findUsers (limit: int, offset: int):
+    cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT name, rut, tel, email, status, area FROM users LIMIT %s OFFSET %s;",
             (limit, offset)
         )
-        rows: List[Tuple[PublicUser]] = cursor.fetchall()
+        rows = cursor.fetchall()
         cursor.close()
         return rows
     
@@ -21,15 +21,15 @@ def findUsers (limit: int, offset: int) -> Union[List[Tuple[PublicUser]], None]:
             return []
         return None
 
-def findUserByID (id: UUID) -> Union[Tuple[PublicUser], None]:
-    cursor: Cursor = connection.cursor()
+def findUserByID (id: UUID):
+    cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT profile_picture_url, name, rut, tel, email, status, area FROM users WHERE id = %s",
             (id,)   # Honestly this is really stupid. 
                     # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
         )
-        rows: Tuple[PublicUser] = cursor.fetchone()[0]
+        rows = cursor.fetchone()[0]
         cursor.close()
         if rows is None:
             return []
@@ -43,15 +43,15 @@ def findUserByID (id: UUID) -> Union[Tuple[PublicUser], None]:
             return []
         return None
 
-def findUserByEmail(email: str) -> Union[ Tuple[TokenUser], None ]:
-    cursor: Cursor = connection.cursor()
+def findUserByEmail(email: str):
+    cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT id, name, rut, password, status FROM users WHERE email = %s",
             (email,)    # Honestly this is really stupid. 
                         # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
         )
-        userInfo: Tuple[TokenUser] = cursor.fetchone()
+        userInfo = cursor.fetchone()
         cursor.close()
         if userInfo is None:
             return []
@@ -70,8 +70,8 @@ def createUser (
     email: str,
     status: str,
     area: str
-) -> Union[ Tuple[UUID], None]:
-    cursor: Cursor = connection.cursor()
+):
+    cursor = connection.cursor()
     try:
         cursor.execute(
             """
@@ -80,7 +80,7 @@ def createUser (
             """,
             (name, rut, password, tel, email, status, area)
         )
-        newID: Tuple[UUID] = cursor.fetchone()[0]
+        newID = cursor.fetchone()[0]
         connection.commit()
         cursor.close()
         return newID
