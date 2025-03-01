@@ -13,7 +13,7 @@ const ExpenseReport = ({
   options,
   location = "",
 }: {
-  data: ExpenseReportData;
+  data: any; // TODO : Proper TS typing
   options: ExpenseReportOptions;
   location?: string;
 }) => {
@@ -50,8 +50,8 @@ const ExpenseReport = ({
       </header>
 
       <section className="ml-4 mr-4 flex justify-between">
-        <DataText labelText="Author" dataText={data.author} />
-        <DataText labelText="Date" dataText={data.date} />
+        <DataText labelText="Author" dataText={data.name} />
+        <DataText labelText="Date" dataText={data.created_at} />
         <DataText labelText="Type" dataText={data.type} />
         <DataText labelText="Amount" dataText={String(data.amount)} />
       </section>
@@ -60,10 +60,10 @@ const ExpenseReport = ({
         className={`transition-transition ${hidden} ${margin} ml-4 flex w-full items-center gap-4 self-start overflow-hidden duration-100`}
       >
         <a
-          href="data.backupURL"
+          href={data.backup_url}
           className="cursor-pointer text-4xl"
           title="Download Backup File Of This Report"
-          download=""
+          download
         >
           <RiFileDownloadFill />
         </a>

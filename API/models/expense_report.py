@@ -8,7 +8,7 @@ def makeGetManyQuery (
     minAmount: int,
     maxAmount: int,
 ) -> Tuple[ List[str], List[str] ]:
-    base_query: str = "SELECT author_id, type, amount, backup_url FROM expense_report"
+    base_query: str = "SELECT author_id, type, amount, backup_url, created_at, status FROM expense_report"
     conditions: List[str] = []
     params: List[str] = []
 
@@ -66,7 +66,7 @@ def getOne (id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT author_id, type, amount, backup_url FROM expense_report WHERE id = %s",
+            "SELECT author_id, type, amount, backup_url, created_at, status FROM expense_report WHERE id = %s",
             (id,)
         )
         rows = cursor.fetchone()

@@ -2,23 +2,14 @@ import React from "react";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import ExpenseReportCreationForm from "@/ui/Forms/ExpenseReportCreationForm";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
-import { UUID } from "node:crypto";
+import { headers } from "next/headers";
+import { getProfileSubmissions } from "./utils";
 
 /*
  * @todo: Enable protected route
  */
 const page = async () => {
-  const userSubmissions: ExpenseReportData[] = [
-    {
-      id: "831033dc-a770-430c-a2c4-3664faeb2e82",
-      author: "Yukichi Takeda",
-      type: "Otros",
-      amount: 0,
-      date: "2024-02-02",
-      status: "Closed",
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-  ];
+  const userSubmissions = await getProfileSubmissions(await headers());
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">

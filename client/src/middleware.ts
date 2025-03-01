@@ -31,29 +31,10 @@ export async function middleware(req: NextRequest) {
 
   // * Authentication successful: Fetch user data
   const userData = await authResponse.json();
-  const params = new URLSearchParams({
-    author_id: userData.id,
-    limit: "10",
-  });
-
-  const dbResponse = await fetch(
-    `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report?${params.toString()}`,
-    { method: "GET" },
-  );
-
-  let userSubmissions = undefined;
-  if (!dbResponse.ok) {
-    console.log("Error at fetching expense reports from the user");
-    userSubmissions = [];
-  } else {
-    userSubmissions = await dbResponse.json();
-  }
 
   // * Set user data header and return
   const requestHeaders = new Headers(req.headers);
-  requestHeaders.set("x-user-data", JSON.stringify(userSubmissions));
-
-  console.log(userSubmissions);
+  requestHeaders.set("x-user-data", JSON.stringify(userData));
 
   return NextResponse.next({ headers: requestHeaders });
 }
