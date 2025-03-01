@@ -1,20 +1,14 @@
 import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
-import type { ExpenseReport } from "@/types";
+import type {
+  ExpenseReport,
+  SearchFilters,
+  UncompleteExpenseReport,
+} from "@/types";
 
-type UncompleteExpenseReport = Omit<ExpenseReport, "name" | "created_At">;
-
-export const getProfileSubmissions = async (headersList: ReadonlyHeaders) => {
-  // * Getting "x-user-data" header for fetched user data.
-  // * No edge case where header doesn't exist.
-  const userData = JSON.parse(headersList.get("x-user-data") as string);
-
+export const getAllSubmissions = async (filters: Partial<SearchFilters>) => {
   // * Make a request to the Database API to fetch previous user expense
   // * report submissions
-  const params = new URLSearchParams({
-    author_id: userData.id,
-    limit: "10",
-  });
+  const params = new URLSearchParams(filters);
 
   const dbResponse = await fetch(
     `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report?${params.toString()}`,
@@ -29,7 +23,6 @@ export const getProfileSubmissions = async (headersList: ReadonlyHeaders) => {
   }
 
   const submissionList: UncompleteExpenseReport[] = await dbResponse.json();
-  console.log(submissionList);
 
   const userSubmissions: ExpenseReport[] = submissionList.map((submission) => ({
     ...submission,

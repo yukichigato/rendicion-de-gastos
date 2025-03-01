@@ -28,6 +28,7 @@ def getReportByID(id: str):             # TODO : Update this with the proper UUI
 @reportRouter.get('')
 def getReports(
     author_id: str = Query(None),   # TODO : Update this with the proper UUIDv4 type
+    name: str = Query(None),
     type: str = Query(None),        # TODO : Update this with the proper ExpenseType type
     minAmount: int = Query(None),
     maxAmount: int = Query(None),
@@ -37,6 +38,7 @@ def getReports(
     try:
         rows = getMany(
             author_id,
+            name,
             type,
             minAmount,
             maxAmount,

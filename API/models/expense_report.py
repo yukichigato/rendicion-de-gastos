@@ -4,17 +4,33 @@ from typing import List, Tuple
     
 def makeGetManyQuery (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
+    name: str,
     type: str,      # TODO : Update this with the proper ExpenseType type
     minAmount: int,
     maxAmount: int,
 ) -> Tuple[ List[str], List[str] ]:
-    base_query: str = "SELECT author_id, type, amount, backup_url, created_at, status FROM expense_report"
+    base_query: str = """
+        SELECT 
+            author_id, 
+            name,
+            type, 
+            amount, 
+            expense_report.status,
+            backup_url, 
+            expense_report.created_at
+        FROM expense_report 
+        LEFT JOIN users ON expense_report.author_id = users.id
+    """
+
     conditions: List[str] = []
     params: List[str] = []
 
     if author_id is not None:
         conditions.append("author_id = %s")
         params.append(author_id)
+    if name is not None:
+        conditions.append("name = %s")
+        params.append(name)
     if type is not None:
         conditions.append("type = %s")
         params.append(type)
@@ -34,6 +50,7 @@ def makeGetManyQuery (
 
 def getMany (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
+    name: str,
     type: str,      # TODO : Update this with the proper ExpenseType type
     minAmount: int,
     maxAmount: int,
@@ -42,7 +59,7 @@ def getMany (
 ):
     cursor = connection.cursor()
 
-    query, params = makeGetManyQuery(author_id, type, minAmount, maxAmount)
+    query, params = makeGetManyQuery(author_id, name, type, minAmount, maxAmount)
     params.append(limit)
     params.append(offset)
 

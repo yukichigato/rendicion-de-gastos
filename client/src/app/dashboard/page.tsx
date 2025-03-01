@@ -1,54 +1,29 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import DashboardFiltersForm from "@/ui/Forms/DashboardFiltersForm";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
+import type {
+  ExpenseReport as ExpenseReportType,
+  SearchFilters,
+} from "@/types";
+import { getAllSubmissions } from "./utils";
 
 const page = () => {
-  const expenseReportData: ExpenseReportData[] = [
-    {
-      author: "Alice Johnson",
-      date: "2024-02-10" as DateType,
-      type: "Otros" as ExpenseType,
-      amount: "450.990",
-      status: "Pending" as ExpenseReportStatus,
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-    {
-      author: "Alice Johnson",
-      date: "2024-02-10" as DateType,
-      type: "Otros" as ExpenseType,
-      amount: "450.990",
-      status: "Pending" as ExpenseReportStatus,
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-    {
-      author: "Alice Johnson",
-      date: "2024-02-10" as DateType,
-      type: "Otros" as ExpenseType,
-      amount: "450.990",
-      status: "Closed" as ExpenseReportStatus,
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-    {
-      author: "Alice Johnson",
-      date: "2024-02-10" as DateType,
-      type: "Otros" as ExpenseType,
-      amount: "450.990",
-      status: "Accepted" as ExpenseReportStatus,
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-    {
-      author: "Alice Johnson",
-      date: "2024-02-10" as DateType,
-      type: "Otros" as ExpenseType,
-      amount: "450.990",
-      status: "Closed" as ExpenseReportStatus,
-      backupURL: "https://i.ytimg.com/vi/jAmz1gEAJVY/maxresdefault.jpg",
-    },
-  ];
-  /*
-   *  @todo : Remove static data above.
-   */
+  const [searchFilters, setSearchFilters] = useState<Partial<SearchFilters>>(
+    {},
+  );
+  const [submissions, setSubmissions] = useState<ExpenseReportType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data: ExpenseReportType[] = await getAllSubmissions(searchFilters);
+      setSubmissions(data);
+    };
+
+    fetchData();
+  }, [searchFilters]);
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">
@@ -65,7 +40,7 @@ const page = () => {
           Explore and accept/close submissions made to the system.
         </p>
 
-        {expenseReportData.map((report, index) => (
+        {submissions.map((report, index) => (
           <ExpenseReport
             data={report}
             options={expenseReportOptions(report.status)}
