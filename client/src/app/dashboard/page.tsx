@@ -3,9 +3,6 @@ import DashboardFiltersForm from "@/ui/Forms/DashboardFiltersForm";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 
-/*
- * @todo: Enable protected route
- */
 const page = () => {
   const expenseReportData: ExpenseReportData[] = [
     {

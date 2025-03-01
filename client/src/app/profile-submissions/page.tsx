@@ -5,9 +5,6 @@ import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 import { headers } from "next/headers";
 import { getProfileSubmissions } from "./utils";
 
-/*
- * @todo: Enable protected route
- */
 const page = async () => {
   const userSubmissions = await getProfileSubmissions(await headers());
 

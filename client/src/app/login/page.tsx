@@ -4,9 +4,6 @@ import LoginForm from "@/ui/Forms/LoginForm";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-/*
- * @todo: Enable protected route
- */
 const Page = () => {
   const router = useRouter();
 
