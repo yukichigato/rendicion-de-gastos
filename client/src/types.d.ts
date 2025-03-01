@@ -49,7 +49,7 @@ export type UncompleteExpenseReport = Omit<
 
 export interface SearchFilters {
   name: string;
-  order: "DESC" | "ASC";
+  order: "Newest" | "Oldest";
   minAmount: string;
   maxAmount: string;
   type: ExpenseType;

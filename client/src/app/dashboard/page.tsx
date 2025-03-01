@@ -25,10 +25,13 @@ const page = () => {
     fetchData();
   }, [searchFilters]);
 
+  // TODO : Show filters
+  // TODO : Remove filters individually
+
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">
       <aside className="border-r-[.0625rem] border-gray-300 p-8">
-        <DashboardFiltersForm />
+        <DashboardFiltersForm setSearchFilters={setSearchFilters} />
       </aside>
 
       <main className="flex w-full flex-col gap-1 p-8">

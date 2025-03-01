@@ -33,7 +33,8 @@ def getReports(
     minAmount: int = Query(None),
     maxAmount: int = Query(None),
     limit: int = Query(999),
-    offset: int = Query(0)
+    offset: int = Query(0),
+    order: str = Query('Newest')
 ):
     try:
         rows = getMany(
@@ -43,7 +44,8 @@ def getReports(
             minAmount,
             maxAmount,
             limit,
-            offset
+            offset,
+            order
         )
         return rows
     except Exception as error:

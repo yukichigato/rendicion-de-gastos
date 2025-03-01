@@ -4,25 +4,39 @@ import React, { useId, useRef } from "react";
 import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
 import SubmitButton from "@/ui/SubmitButton";
+import { SearchFilters } from "@/types";
+import { getAllSubmissions } from "@/app/dashboard/utils";
 
-const DashboardFiltersForm = () => {
+const DashboardFiltersForm = ({
+  setSearchFilters,
+}: {
+  setSearchFilters: Function;
+}) => {
   const authorFieldID = useId();
   const orderFieldID = useId();
   const minAmountFieldID = useId();
   const maxAmountFieldID = useId();
   const typeFieldID = useId();
-  const authorFieldHook = useRef(null);
-  const orderFieldHook = useRef(null);
-  const minAmountFieldHook = useRef(null);
-  const maxAmountFieldHook = useRef(null);
-  const typeFieldHook = useRef(null);
 
-  /*
-   *  @todo : Do we even need the useRefs? Create proper server action
-   */
+  const handleSubmit = async (formData: FormData) => {
+    // * Converts the filtesr into an array (Object.entries) then
+    // * reduces it with Array.filter(...), and finally turns it back
+    // * into an Object with Object.fromEntries
+    const filterData = Object.fromEntries(
+      Object.entries({
+        name: formData.get("name"),
+        order: formData.get("order"),
+        minAmount: formData.get("minAmount"),
+        maxAmount: formData.get("maxAmount"),
+        type: formData.get("type"),
+      }).filter(([_, value]) => value !== null && value !== ""),
+    ) as Partial<SearchFilters>;
+
+    setSearchFilters(filterData);
+  };
 
   return (
-    <form action="" className="flex flex-col">
+    <form action={handleSubmit} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-rose-500">
         Filter reports by
       </h1>
@@ -35,29 +49,26 @@ const DashboardFiltersForm = () => {
         <InputField
           inputID={authorFieldID}
           inputType="text"
-          inputName="reportAuthor"
+          inputName="name"
           labelText="Author name"
           placeholder="John Doe"
-          refHook={authorFieldHook}
         />
       </div>
       <div className="mb-4 flex flex-col">
         <SelectField
           selectID={orderFieldID}
-          selectName="sortOrder"
+          selectName="order"
           labelText="Order"
           options={["Newest", "Oldest"]}
-          refHook={orderFieldHook}
         />
       </div>
       <div className="mb-4 flex flex-col">
         <InputField
           inputID={minAmountFieldID}
           inputType="number"
-          inputName="minAmounr"
+          inputName="minAmount"
           labelText="Minimum Amount"
           placeholder="0 CLP"
-          refHook={minAmountFieldHook}
         />
       </div>
       <div className="mb-4 flex flex-col">
@@ -67,7 +78,6 @@ const DashboardFiltersForm = () => {
           inputName="maxAmount"
           labelText="Maximum Amount"
           placeholder="1000000 CLP"
-          refHook={maxAmountFieldHook}
         />
       </div>
       <div className="mb-4 flex flex-col">
@@ -83,15 +93,11 @@ const DashboardFiltersForm = () => {
             "Necesidades",
             "Alimentación",
           ]}
-          refHook={typeFieldHook}
         />
       </div>
 
-      <div className="mt-4 grid w-full grid-cols-2 gap-2">
+      <div className="mt-4">
         <SubmitButton innerText="Filter" />
-        <button className="rounded-lg border-[.0625rem] border-red-500 p-4 text-red-500">
-          Reset filters
-        </button>
       </div>
     </form>
   );

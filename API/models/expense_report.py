@@ -8,6 +8,7 @@ def makeGetManyQuery (
     type: str,      # TODO : Update this with the proper ExpenseType type
     minAmount: int,
     maxAmount: int,
+    order: str
 ) -> Tuple[ List[str], List[str] ]:
     base_query: str = """
         SELECT 
@@ -43,7 +44,14 @@ def makeGetManyQuery (
 
     where_clause: str = " WHERE " + " AND ".join(conditions) if conditions else ""
     base_query += where_clause
+    
+    if order == "Newest":
+        base_query += f" ORDER BY created_at DESC"
+    else:
+        base_query += f" ORDER BY created_at ASC"
+        
     base_query += " LIMIT %s OFFSET %s"
+
 
     return base_query, params
 
@@ -55,11 +63,12 @@ def getMany (
     minAmount: int,
     maxAmount: int,
     limit: int,
-    offset: int
+    offset: int,
+    order: str
 ):
     cursor = connection.cursor()
 
-    query, params = makeGetManyQuery(author_id, name, type, minAmount, maxAmount)
+    query, params = makeGetManyQuery(author_id, name, type, minAmount, maxAmount, order)
     params.append(limit)
     params.append(offset)
 
