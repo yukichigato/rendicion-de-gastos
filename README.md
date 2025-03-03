@@ -54,6 +54,7 @@ docker-compose up --build
 #### Authentication API (Base URL: _http://localhost:8001_):
 
 - **POST** `/api/login`: If the credentials are valid, generated a cookie containing a jsonwebtoken that can get validated later.
+- **POST** `/api/authentication`: Authenticate a jsonwebtoken.
 
 ## Client Usage
 
