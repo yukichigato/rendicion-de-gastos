@@ -1,22 +1,22 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Literal
 
 class NewUser(BaseModel):
     name: str
     rut: str
     password: str
-    tel: str = ''
+    tel: str = ""
     email: str
-    status: str = 'Trabajador'
-    area: str = 'Otros'
+    status: str = "Trabajador"
+    area: str = "Otros"
 
 class PublicUser(BaseModel):
     name: str
     rut: str
-    tel: str = ''
+    tel: str = ""
     email: str
-    status: str = 'Trabajador'
-    area: str = 'Otros'
+    status: str = "Trabajador"
+    area: str = "Otros"
 
 class TokenUser(PublicUser):
     id: str
@@ -25,13 +25,15 @@ class TokenUser(PublicUser):
 class User(PublicUser):
     id: str
     password: str
-    tel: str = ''
+    tel: str = ""
 
 class Report(BaseModel):
     author_id: str
-    type: str = 'Otros'
+    type: str = "Otros"
     amount: int
     backup_url: str
 
 class StatusUpdate(BaseModel):
     status: str
+
+ReportType = Literal["Materiales", "Social", "Estadías", "Necesidades", "Alimentación", "Otros"]

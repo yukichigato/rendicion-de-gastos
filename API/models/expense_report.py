@@ -1,6 +1,7 @@
 from ..utils import connection
 from psycopg2 import DatabaseError
-from typing import List, Tuple
+from typing import *
+from ..types import *
     
 def makeGetManyQuery (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
@@ -60,7 +61,7 @@ def makeGetManyQuery (
 def getMany (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
     name: str,
-    type: str,      # TODO : Update this with the proper ExpenseType type
+    type: ReportType,      # TODO : Update this with the proper ExpenseType type
     minAmount: int,
     maxAmount: int,
     limit: int,
@@ -72,8 +73,6 @@ def getMany (
     query, params = makeGetManyQuery(author_id, name, type, minAmount, maxAmount, order)
     params.append(limit)
     params.append(offset)
-
-    print(query, params)
 
     try:
         cursor.execute(query, tuple(params))
