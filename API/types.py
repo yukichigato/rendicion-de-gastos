@@ -32,3 +32,6 @@ class Report(BaseModel):
     type: str = 'Otros'
     amount: int
     backup_url: str
+
+class StatusUpdate(BaseModel):
+    status: str

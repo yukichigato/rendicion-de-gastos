@@ -11,7 +11,8 @@ def makeGetManyQuery (
     order: str
 ) -> Tuple[ List[str], List[str] ]:
     base_query: str = """
-        SELECT 
+        SELECT
+            expense_report.id,
             author_id, 
             name,
             type, 
@@ -133,3 +134,19 @@ def createOne (
         cursor.close()
         return None
     
+def updateOne(id: str, status: str):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            "UPDATE expense_report SET status = %s WHERE id = %s",
+            (status, id)
+        )
+        connection.commit()
+        cursor.close()
+        return
+    
+    except DatabaseError as error:
+        print(f"Database error: {error}")
+        connection.rollback()
+        cursor.close()
+        return None

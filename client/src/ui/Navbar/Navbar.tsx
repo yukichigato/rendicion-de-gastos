@@ -42,9 +42,7 @@ const Navbar = () => {
         >
           <path d="m10 8-7 6V2l7 6z" />
         </svg>
-        <p className="ml-8 flex items-center text-xl text-red-500">
-          Hello, user
-        </p>
+        {/* <p className="ml-8 flex items-center text-xl text-red-500">Hello.</p> */}
       </summary>
       <ul className="fixed left-0 top-16 z-10 flex list-none flex-col shadow-md">
         <Link href="" onClick={closeMenu} className="hover:cursor-pointer">

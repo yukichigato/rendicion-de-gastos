@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { RiFileDownloadFill } from "react-icons/ri";
 import DataText from "@/ui/ExpenseReport/DataText";
 import ExpenseReportHeader from "@/ui/ExpenseReport/ExpenseReportHeader";
 import AcceptCloseButtons from "@/ui/ExpenseReport/AcceptCloseButtons";
 import { ExpenseReportOptions } from "@/ui/ExpenseReport/utils";
 import ReportStatusIcon from "@/ui/ExpenseReport/ReportStatusIcon";
+import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
+import { revalidatePath } from "next/cache";
 
 const ExpenseReport = ({
   data,
@@ -20,6 +22,7 @@ const ExpenseReport = ({
   const [rotation, setRotation] = useState("rotate-0");
   const [hidden, setHidden] = useState("h-0");
   const [margin, setMargin] = useState("mt-0");
+  const expenseReportRef = useRef<HTMLElement | null>(null);
 
   const toggleRotation = () => {
     setRotation((prev) => (prev === "rotate-0" ? "rotate-90" : "rotate-0"));
@@ -35,9 +38,55 @@ const ExpenseReport = ({
     toggleHidden();
   };
 
+  const acceptReport = async () => {
+    try {
+      const articleElement = expenseReportRef.current as HTMLElement;
+      const data = {
+        status: "Approved",
+      };
+
+      await fetch(
+        `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report/${articleElement.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        },
+      );
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
+    } // TODO : Better error handling
+  };
+
+  const closeReport = async () => {
+    try {
+      const articleElement = expenseReportRef.current as HTMLElement;
+      const data = {
+        status: "Denied",
+      };
+
+      await fetch(
+        `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report/${articleElement.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        },
+      );
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
+    } // TODO : Better error handling
+  };
+
   return (
     <article
       className={`flex flex-col border-[.0625rem] border-gray-300 pb-4 ${options.opacity} transition-all duration-100`}
+      id={data.id}
+      ref={expenseReportRef}
     >
       <header
         onClick={toggleExpenseReport}
@@ -67,7 +116,12 @@ const ExpenseReport = ({
         >
           <RiFileDownloadFill />
         </a>
-        <AcceptCloseButtons status={data.status} location={location} />
+        <AcceptCloseButtons
+          status={data.status}
+          location={location}
+          acceptFunction={acceptReport}
+          closeFunction={closeReport}
+        />
       </section>
     </article>
   );

@@ -4,11 +4,11 @@ export interface ExpenseReportOptions {
 
 export const expenseReportOptions = (status: string): ExpenseReportOptions => {
   switch (status) {
-    case "Accepted":
+    case "Approved":
       return { opacity: "opacity-60" };
     case "Pending":
       return { opacity: "opacity-100" };
-    case "Closed":
+    case "Denied":
       return { opacity: "opacity-60" };
     default:
       return { opacity: "opacity-100" };

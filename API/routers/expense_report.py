@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query
-from ..models.expense_report import createOne, getMany, getOne
+from ..models.expense_report import createOne, getMany, getOne, updateOne
 from ..types import *
 
 reportRouter = APIRouter(prefix="/api/expense_report")
@@ -50,3 +50,11 @@ def getReports(
         return rows
     except Exception as error:
         raise HTTPException(status_code = 500, detail = f"Server Error {str(error)}")
+    
+@reportRouter.patch("/{id}")
+def patchRerort(id: str, status_update: StatusUpdate):             # TODO : Update this with the proper UUIDv4 type
+    try:
+        updateOne(id, status_update.status)
+        return
+    except Exception as error:
+        raise HTTPException(status_code = 500, detail = f"Server Error ${str(error)}")

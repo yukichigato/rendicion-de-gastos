@@ -11,7 +11,7 @@ export type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 export type DateType =
   `${digit}${digit}${digit}${digit}-${digit}${digit}-${digit}${digit}`;
 
-export type ReportStatus = "Pending" | "Closed" | "Accepted";
+export type ReportStatus = "Pending" | "Denied" | "Approved";
 
 export type UUIDv4 = `${string}-${string}-${string}-${string}`;
 
@@ -25,6 +25,8 @@ export interface User {
   area: string; // TODO: Change this to the proper type
   status: string; // TODO: Change this to the proper type
 }
+
+export type UserHeader = Omit<User, "password" | "tel" | "email" | "area">;
 
 export type FormActionFunction =
   | string

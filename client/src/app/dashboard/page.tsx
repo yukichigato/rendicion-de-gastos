@@ -26,7 +26,6 @@ const page = () => {
   }, [searchFilters]);
 
   // TODO : Show filters
-  // TODO : Remove filters individually
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">

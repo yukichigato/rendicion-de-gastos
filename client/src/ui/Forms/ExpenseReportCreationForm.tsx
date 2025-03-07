@@ -1,30 +1,61 @@
-"use client";
-import React, { use, useId, useRef } from "react";
+import React, { useId } from "react";
 import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
 import SubmitButton from "@/ui/SubmitButton";
-import TextareaField from "@/ui/TextareaField";
 import FileField from "@/ui/FileField";
+import { put } from "@vercel/blob";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { UserHeader } from "@/types";
+import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
 
 const ExpenseReportCreationForm = () => {
-  const titleInputID = useId();
   const typeInputID = useId();
-  const detailsInputID = useId();
   const amountInputID = useId();
   const fileInputID = useId();
 
-  const titleInputRef = useRef(null);
-  const typeInputRef = useRef(null);
-  const detailsInputRef = useRef(null);
-  const amountInputRef = useRef(null);
-  const fileInputRef = useRef(null);
+  async function uploadImage(formData: FormData) {
+    "use server";
 
-  /*
-   *  @todo : Do we even need the useRefs? Create proper server action
-   */
+    // Uploading blob to vercel
+    const imageFile = formData.get("backup") as File;
+    const blob = await put(imageFile.name, imageFile, {
+      access: "public",
+    });
+
+    // Uploading expense report to db
+    const headersList = await headers();
+    const userData: UserHeader = JSON.parse(
+      headersList.get("x-user-data") as string,
+    );
+
+    const expenseReportData = {
+      author_id: userData.id,
+      type: formData.get("type"),
+      amount: formData.get("amount"),
+      backup_url: blob.downloadUrl,
+    };
+
+    try {
+      const response = await fetch(
+        `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(expenseReportData),
+        },
+      );
+
+      revalidatePath("/");
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
+    }
+  }
 
   return (
-    <form action="" className="flex flex-col">
+    <form action={uploadImage} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">
         Expense report submission form
       </h1>
@@ -52,7 +83,6 @@ const ExpenseReportCreationForm = () => {
             "Alimentación",
           ]}
           required
-          refHook={typeInputRef}
         />
       </div>
 
@@ -64,30 +94,6 @@ const ExpenseReportCreationForm = () => {
           labelText="Expense amount"
           placeholder="ex. 400.990"
           required
-          refHook={amountInputRef}
-        />
-      </div>
-
-      <div className="mb-4 flex flex-col">
-        <InputField
-          inputID={titleInputID}
-          inputType="text"
-          inputName="title"
-          labelText="Title"
-          placeholder="A descriptive title for your expense report"
-          required
-          refHook={titleInputRef}
-        />
-      </div>
-
-      <div className="mb-4 flex flex-col">
-        <TextareaField
-          inputID={detailsInputID}
-          rows={4}
-          inputName="details"
-          labelText="Details"
-          placeholder="(Optional)"
-          refHook={detailsInputRef}
         />
       </div>
 
@@ -97,7 +103,6 @@ const ExpenseReportCreationForm = () => {
           inputName="backup"
           labelText="Backup"
           required
-          refHook={fileInputRef}
         />
       </div>
 
