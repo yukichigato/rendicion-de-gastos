@@ -10,7 +10,7 @@ def getUser(id: str):
     Gets a user that matches the parameter ID.
 
     - **Parameters**:
-      - `id`: The ID of the user. UUIDv4 string.
+      - `id`: The unique identifier of the user.
 
     - **Returns**:
       - The info of a user (rows).
@@ -51,8 +51,8 @@ def getUserCredentials(
 
     - **Parameters**:
       -  `email`: Email of the user to fetch, optional.
-      -  `limit`: Maximum amounts of users to fetch.
-      -  `offset`: Offset for the dabatase query.
+      -  `limit`: Maximum amounts of users to retrieve.
+      -  `offset`: Starting index for retrieval.
 
     - **Returns**:
       - An array of user information or a single user if email is provided, and user is found (rows).

@@ -10,7 +10,7 @@ def getReportByID(id: str):             # TODO : Update this with the proper UUI
     Gets an expense report that matches the parameter ID.
 
     - **Parameters**:
-      - `id`: The ID of the expense report. UUIDv4 string.
+      - `id`: The unique identifier of the expense report. UUIDv4 string.
 
     - **Returns**:
       - The info of an expense report (rows).
@@ -55,13 +55,13 @@ def getReports(
     Gets all expense reports that match the input parameters.
 
     - **Parameters**:
-      -  `author_id`: The ID of the report's author. UUIDv4 string.
+      -  `author_id`: The unique identifier of the expense report's author.
       -  `name`: Name of the report's author.
       -  `type`: The report's type, has to be one of the allowed ones in the database.
       -  `minAmount`: Minimum amount related to the expense report.
       -  `maxAmount`: Maximum amount related to the expense report.
       -  `limit`: Maximum amounts of expense reports to fetch.
-      -  `offset`: Offset for the dabatase query.
+      -  `offset`: Starting index for retrieval.
       -  `order`: Order in which the expense reports will be shown (Newest/Oldest).
 
     - **Returns**:

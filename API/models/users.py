@@ -3,6 +3,21 @@ from psycopg2 import DatabaseError
 from ..types import PublicUser, TokenUser
 
 def findUsers (limit: int, offset: int):
+    """
+    Retrieves a paginated list of users.
+
+    - **Parameters**:
+      - `limit` (int): The maximum number of users to retrieve.
+      - `offset` (int): The starting index for retrieval.
+
+    - **Returns**:
+      - `list[tuple]`: A list of tuples containing (`name`, `rut`, `tel`, `email`, `status`, `area`).
+      - `[]`: If no users are found.
+      - `None`: If a database error occurs.
+
+    - **Error Handling**:
+      - Catches `DatabaseError`, logs the error, rolls back the transaction, and returns `None` if the query fails.
+    """
     cursor = connection.cursor()
     try:
         cursor.execute(
@@ -22,6 +37,20 @@ def findUsers (limit: int, offset: int):
         return None
 
 def findUserByID (id: str):
+    """
+    Retrieves user information by ID.
+
+    - **Parameters**:
+      - `id` (str): The unique identifier of the user.
+
+    - **Returns**:
+      - `tuple`: A tuple containing (`name`, `rut`, `tel`, `email`, `status`, `area`) if the user is found.
+      - `[]`: If no user is found.
+      - `None`: If a database error occurs.
+
+    - **Error Handling**:
+      - Catches `DatabaseError`, logs the error, rolls back the transaction, and returns `None` if the query fails.
+    """
     cursor = connection.cursor()
     try:
         cursor.execute(
@@ -44,12 +73,25 @@ def findUserByID (id: str):
         return None
 
 def findUserByEmail(email: str):
+    """
+    Retrieves user information by email.
+
+    - **Parameters**:
+      - `email` (str): The email address of the user.
+
+    - **Returns**:
+      - `tuple`: A tuple containing (`id`, `name`, `rut`, `password`, `status`) if the user is found.
+      - `[]`: If no user is found.
+      - `None`: If a database error occurs.
+
+    - **Error Handling**:
+      - Catches `DatabaseError`, logs the error, rolls back the transaction, and returns `None` if the query fails.
+    """
     cursor = connection.cursor()
     try:
         cursor.execute(
             "SELECT id, name, rut, password, status FROM users WHERE email = %s",
-            (email,)    # Honestly this is really stupid. 
-                        # psycopg2.cursor.execute expects a tuple, so you need the trailing comma.
+            (email,)    # psycopg2 requires a tuple, hence the trailing comma.
         )
         userInfo = cursor.fetchone()
         cursor.close()
@@ -71,6 +113,25 @@ def createUser (
     status: str,
     area: str
 ):
+    """
+    Creates a new user in the database.
+
+    - **Parameters**:
+      - `name` (str): The full name of the user.
+      - `rut` (str): The unique identifier (RUT) of the user.
+      - `password` (str): The user's hashed password.
+      - `tel` (str): The user's phone number.
+      - `email` (str): The user's email address.
+      - `status` (str): The current status of the user.
+      - `area` (str): The department or area the user belongs to.
+
+    - **Returns**:
+      - `tuple`: A tuple containing the newly created user's ID.
+      - `None`: If a database error occurs.
+
+    - **Error Handling**:
+      - Catches `DatabaseError`, logs the error, rolls back the transaction, and returns `None` if the query fails.
+    """
     cursor = connection.cursor()
     try:
         cursor.execute(
@@ -90,4 +151,3 @@ def createUser (
         connection.rollback()
         cursor.close()
         return None
-    
