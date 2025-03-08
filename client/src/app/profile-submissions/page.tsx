@@ -4,19 +4,17 @@ import React from "react";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import ExpenseReportCreationForm from "@/ui/Forms/ExpenseReportCreationForm";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
-// import { headers } from "next/headers";
-// import { getProfileSubmissions } from "./utils";
 import useSWR from "swr";
+import { ExpenseReport as ExpenseReportType } from "@/types";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Page = () => {
-  // const userSubmissions = await getProfileSubmissions(await headers());
   const {
     data = [],
     error,
     isLoading,
-  } = useSWR("/api/profile-submissions", fetcher);
+  } = useSWR<ExpenseReportType[]>("/api/profile-submissions", fetcher);
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">

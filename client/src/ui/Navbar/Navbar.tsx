@@ -1,15 +1,32 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { MdMenu } from "react-icons/md";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { MdMenu } from "react-icons/md";
+import { UserHeader } from "@/types";
 
 const Navbar = () => {
   const navbarRef = useRef<HTMLDetailsElement>(null);
-  const [rotation, setRotation] = useState("rotate-0");
+  const [rotation, setRotation] = useState<string>("rotate-0");
+  const [userName, setUserName] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    const handleFetch = async () => {
+      const res: Response = await fetch("/api/navbar", {
+        method: "GET",
+      });
+
+      const data: UserHeader = await res.json();
+
+      const spaceIndex = data.name.indexOf(" ");
+      setUserName(data.name.slice(0, spaceIndex));
+    };
+
+    handleFetch();
+  });
 
   const logout = () => {
     Cookies.remove("auth_cookie");
@@ -42,7 +59,9 @@ const Navbar = () => {
         >
           <path d="m10 8-7 6V2l7 6z" />
         </svg>
-        {/* <p className="ml-8 flex items-center text-xl text-red-500">Hello.</p> */}
+        <p className="ml-8 flex items-center text-xl text-red-500">
+          Hello, {userName}
+        </p>
       </summary>
       <ul className="fixed left-0 top-16 z-10 flex list-none flex-col shadow-md">
         <Link href="" onClick={closeMenu} className="hover:cursor-pointer">

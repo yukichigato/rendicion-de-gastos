@@ -15,7 +15,7 @@ const ExpenseReportCreationForm = () => {
 
   const handleSubmit = async (formData: FormData) => {
     await uploadReport(formData);
-    mutate("/api/profile-submissions");
+    mutate("/api/profile-submissions"); // Update the expense report list to show the newest report
   };
 
   return (
