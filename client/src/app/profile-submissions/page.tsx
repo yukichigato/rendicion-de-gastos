@@ -5,7 +5,7 @@ import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
 import { headers } from "next/headers";
 import { getProfileSubmissions } from "./utils";
 
-const page = async () => {
+const Page = async () => {
   const userSubmissions = await getProfileSubmissions(await headers());
 
   return (
@@ -34,4 +34,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;

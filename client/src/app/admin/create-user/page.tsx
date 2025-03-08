@@ -2,8 +2,9 @@ import React from "react";
 import UserCreationForm from "@/ui/Forms/UserCreationForm";
 import { SALT_ROUNDS } from "@/config";
 import bcrypt from "bcrypt";
+import { User } from "@/types";
 
-const page = () => {
+const Page = () => {
   const handleSubmit = async (formData: FormData) => {
     "use server";
 
@@ -20,7 +21,7 @@ const page = () => {
       email: formData.get("email"),
       area: formData.get("area"),
       status: formData.get("status"),
-    } as UserData;
+    } as User;
 
     try {
       const response = await fetch("http://localhost:8000/api/users", {
@@ -54,4 +55,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

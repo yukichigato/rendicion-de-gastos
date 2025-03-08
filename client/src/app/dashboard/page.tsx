@@ -8,9 +8,9 @@ import type {
   ExpenseReport as ExpenseReportType,
   SearchFilters,
 } from "@/types";
-import { getAllSubmissions } from "./utils";
+import { getAllSubmissions } from "@/app/dashboard/utils";
 
-const page = () => {
+const Page = () => {
   const [searchFilters, setSearchFilters] = useState<Partial<SearchFilters>>(
     {},
   );
@@ -55,4 +55,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
