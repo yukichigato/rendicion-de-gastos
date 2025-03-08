@@ -1,53 +1,34 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useTransition } from "react";
 import Cookies from "js-cookie";
-import { NEXT_PUBLIC_AUTH_API_BASEURL } from "@/config";
+// import { NEXT_PUBLIC_AUTH_API_BASEURL } from "@/config";
 import InputField from "@/ui/InputField";
 import SubmitButton from "@/ui/SubmitButton";
+import { useRouter } from "next/navigation";
+import { login } from "./actions";
 
-const LoginForm = ({ redirectFunction }: { redirectFunction: Function }) => {
+const LoginForm = () => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const emailInputID = useId();
   const passwordInputID = useId();
 
   const handleLogin = async (formData: FormData) => {
-    const credentials = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
+    const token = await login(formData);
 
-    try {
-      const response = await fetch(
-        `${NEXT_PUBLIC_AUTH_API_BASEURL}/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-          credentials: "include",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      const token = await response.json();
-
+    startTransition(() => {
       Cookies.set(`auth_cookie`, token, { expires: 7 });
-
-      redirectFunction();
-      /*
-       *  @todo : Use of React.useTransition()
-       */
-    } catch (error: any) {
-      console.error(error.message);
-      /*
-       *  @todo : Better error handling
-       */
-    }
+      router.push("/profile-submissions");
+    });
   };
+
+  if (isPending)
+    return (
+      <div className="flex items-center justify-center">
+        <div className="relative h-24 w-24 animate-spin rounded-full border-4 border-t-4 border-gray-200 border-t-rose-500"></div>
+      </div>
+    );
 
   return (
     <form action={handleLogin} className="flex flex-col">

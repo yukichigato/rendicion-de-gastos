@@ -1,10 +1,14 @@
 "use server";
 
-import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
+import {
+  NEXT_PUBLIC_AUTH_API_BASEURL,
+  NEXT_PUBLIC_DB_API_BASEURL,
+} from "@/config";
 import { UserHeader } from "@/types";
 import { put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import Cookies from "js-cookie";
 
 export async function uploadReport(formData: FormData) {
   // Uploading blob to vercel
@@ -42,5 +46,34 @@ export async function uploadReport(formData: FormData) {
     window.location.reload();
   } catch (error: any) {
     console.log(`Error: ${error.message}`);
+  }
+}
+
+export async function login(formData: FormData) {
+  const credentials = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+
+  try {
+    const response = await fetch(`${NEXT_PUBLIC_AUTH_API_BASEURL}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    return await response.json();
+  } catch (error: any) {
+    console.error(error.message);
+    /*
+     *  @todo : Better error handling
+     */
   }
 }
