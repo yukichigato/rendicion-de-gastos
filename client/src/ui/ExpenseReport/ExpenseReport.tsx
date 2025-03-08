@@ -9,6 +9,7 @@ import { ExpenseReportOptions } from "@/ui/ExpenseReport/utils";
 import ReportStatusIcon from "@/ui/ExpenseReport/ReportStatusIcon";
 import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
 import { ExpenseReport as ExpenseReportType } from "@/types";
+import { useRouter } from "next/navigation";
 
 const ExpenseReport = ({
   data,
@@ -19,6 +20,7 @@ const ExpenseReport = ({
   options: ExpenseReportOptions;
   location?: string;
 }) => {
+  const router = useRouter();
   const [rotation, setRotation] = useState("rotate-0");
   const [hidden, setHidden] = useState("h-0");
   const [margin, setMargin] = useState("mt-0");
@@ -55,6 +57,7 @@ const ExpenseReport = ({
           body: JSON.stringify(data),
         },
       );
+      router.push("/dashboard");
     } catch (error: any) {
       console.log(`Error: ${error.message}`);
     } // TODO : Better error handling
@@ -77,6 +80,7 @@ const ExpenseReport = ({
           body: JSON.stringify(data),
         },
       );
+      router.push("/dashboard");
     } catch (error: any) {
       console.log(`Error: ${error.message}`);
     } // TODO : Better error handling

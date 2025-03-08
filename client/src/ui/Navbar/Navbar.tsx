@@ -64,11 +64,11 @@ const Navbar = () => {
         </p>
       </summary>
       <ul className="fixed left-0 top-16 z-10 flex list-none flex-col shadow-md">
-        <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
+        {/* <Link href="" onClick={closeMenu} className="hover:cursor-pointer">
           <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:bg-white hover:text-red-500">
             Profile
           </li>
-        </Link>
+        </Link> */}
         <Link
           href="profile-submissions"
           onClick={closeMenu}
