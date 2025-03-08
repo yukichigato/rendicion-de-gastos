@@ -5,7 +5,7 @@ from ..types import NewUser, Optional
 userRouter = APIRouter(prefix="/api/users")
 
 @userRouter.get("/{id}")
-def getUser(id: str):
+def get_user_by_id(id: str):
     """
     Gets a user that matches the parameter ID.
 
@@ -41,7 +41,7 @@ def getUser(id: str):
         )
     
 @userRouter.get("")
-def getUserCredentials(
+def get_many_users(
     email: Optional[str] = Query(None),
     limit: Optional[int] = Query(999),
     offset: Optional[int] = Query(0)
@@ -111,7 +111,7 @@ def getUserCredentials(
 
 
 @userRouter.post("")
-def postUser(user: NewUser):
+def post_new_user(user: NewUser):
     """
     Creates a new user on the provided `user`.
 

@@ -5,7 +5,7 @@ from ..types import *
 reportRouter = APIRouter(prefix="/api/expense_report")
 
 @reportRouter.get("/{id}")
-def getReportByID(id: str):             # TODO : Update this with the proper UUIDv4 type
+def get_report_by_id(id: str):             # TODO : Update this with the proper UUIDv4 type
     """
     Gets an expense report that matches the parameter ID.
 
@@ -41,7 +41,7 @@ def getReportByID(id: str):             # TODO : Update this with the proper UUI
         )
     
 @reportRouter.get('')
-def getReports(
+def get_many_reports(
     author_id: str = Query(None),   # TODO : Update this with the proper UUIDv4 type
     name: str = Query(None),
     type: ReportType = Query(None),
@@ -112,7 +112,7 @@ def getReports(
         )
 
 @reportRouter.post("")
-def postReport(reportData: Report):
+def post_new_report(reportData: Report):
     """
     Creates a new report based on the provided `reportData`.
 
