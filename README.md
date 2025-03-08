@@ -28,12 +28,22 @@ cd expense-report-app
 
 Ensure to have docker installed. If you use Docker Desktop, open it before moving to the next step.
 
-### 3. Build the project using Docker
+### 3. Build the Database API using Docker
 
 Once Docker is running, use the following command to build the app images and to lift the containers:
 
 ```bash
 docker-compose up --build
+```
+
+### 4. Build and run the Authentication API
+
+Run these commands to start the Authentication API:
+
+```bash
+cd Auth\ API
+npm run build
+npm run dev
 ```
 
 ---
