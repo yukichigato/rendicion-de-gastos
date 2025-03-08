@@ -1,12 +1,22 @@
+"use client";
+
 import React from "react";
 import ExpenseReport from "@/ui/ExpenseReport/ExpenseReport";
 import ExpenseReportCreationForm from "@/ui/Forms/ExpenseReportCreationForm";
 import { expenseReportOptions } from "@/ui/ExpenseReport/utils";
-import { headers } from "next/headers";
-import { getProfileSubmissions } from "./utils";
+// import { headers } from "next/headers";
+// import { getProfileSubmissions } from "./utils";
+import useSWR from "swr";
 
-const Page = async () => {
-  const userSubmissions = await getProfileSubmissions(await headers());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const Page = () => {
+  // const userSubmissions = await getProfileSubmissions(await headers());
+  const {
+    data = [],
+    error,
+    isLoading,
+  } = useSWR("/api/profile-submissions", fetcher);
 
   return (
     <div className="flex h-[calc(100vh-2.25rem)]">
@@ -21,10 +31,10 @@ const Page = async () => {
 
         <p className="mb-10">Here's the submissions you've made in the past.</p>
 
-        {userSubmissions.map((submission, index) => (
+        {data.map((report, index) => (
           <ExpenseReport
-            data={submission}
-            options={expenseReportOptions(submission.status)}
+            data={report}
+            options={expenseReportOptions(report.status)}
             location="Profile_submissions"
             key={index}
           />

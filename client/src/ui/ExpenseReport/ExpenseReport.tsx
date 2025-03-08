@@ -8,14 +8,14 @@ import AcceptCloseButtons from "@/ui/ExpenseReport/AcceptCloseButtons";
 import { ExpenseReportOptions } from "@/ui/ExpenseReport/utils";
 import ReportStatusIcon from "@/ui/ExpenseReport/ReportStatusIcon";
 import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
-import { revalidatePath } from "next/cache";
+import { ExpenseReport as ExpenseReportType } from "@/types";
 
 const ExpenseReport = ({
   data,
   options,
   location = "",
 }: {
-  data: any; // TODO : Proper TS typing
+  data: ExpenseReportType;
   options: ExpenseReportOptions;
   location?: string;
 }) => {

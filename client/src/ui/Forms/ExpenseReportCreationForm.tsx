@@ -1,61 +1,25 @@
+"use client";
+
 import React, { useId } from "react";
 import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
 import SubmitButton from "@/ui/SubmitButton";
 import FileField from "@/ui/FileField";
-import { put } from "@vercel/blob";
-import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
-import { UserHeader } from "@/types";
-import { NEXT_PUBLIC_DB_API_BASEURL } from "@/config";
+import { uploadReport } from "./actions";
+import { mutate } from "swr";
 
 const ExpenseReportCreationForm = () => {
   const typeInputID = useId();
   const amountInputID = useId();
   const fileInputID = useId();
 
-  async function uploadImage(formData: FormData) {
-    "use server";
-
-    // Uploading blob to vercel
-    const imageFile = formData.get("backup") as File;
-    const blob = await put(imageFile.name, imageFile, {
-      access: "public",
-    });
-
-    // Uploading expense report to db
-    const headersList = await headers();
-    const userData: UserHeader = JSON.parse(
-      headersList.get("x-user-data") as string,
-    );
-
-    const expenseReportData = {
-      author_id: userData.id,
-      type: formData.get("type"),
-      amount: formData.get("amount"),
-      backup_url: blob.downloadUrl,
-    };
-
-    try {
-      const response = await fetch(
-        `${NEXT_PUBLIC_DB_API_BASEURL}/api/expense_report`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(expenseReportData),
-        },
-      );
-
-      revalidatePath("/");
-    } catch (error: any) {
-      console.log(`Error: ${error.message}`);
-    }
-  }
+  const handleSubmit = async (formData: FormData) => {
+    await uploadReport(formData);
+    mutate("/api/profile-submissions");
+  };
 
   return (
-    <form action={uploadImage} className="flex flex-col">
+    <form action={handleSubmit} className="flex flex-col">
       <h1 className="mb-10 justify-center self-center text-4xl font-semibold text-red-500">
         Expense report submission form
       </h1>

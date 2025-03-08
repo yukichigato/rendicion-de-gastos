@@ -37,6 +37,6 @@ CREATE TABLE IF NOT EXISTS expense_report (
 -- Test values, Remove during prod
 INSERT INTO users ("name", "rut", "password", "tel", "email", "status", "area") 
     VALUES
-        ('Yukichi Gato', '12.345.678-9', '$2a$10$g6R5179Mf/zkHfq83Scj..QkRSZ3KrsfHTihowh7fTTzNIBasWH.S', '+56 9 1234 5678', 'Admin', 'Otros');
+        ('Yukichi Gato', '12.345.678-9', '$2a$10$g6R5179Mf/zkHfq83Scj..QkRSZ3KrsfHTihowh7fTTzNIBasWH.S', '+56 9 1234 5678', 'yukichi@email.com', 'Admin', 'Otros');
 
 SELECT * FROM users;
