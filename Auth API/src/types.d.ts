@@ -11,3 +11,18 @@ type UserData = {
   password: string;
   status: string;
 };
+
+interface UserCredentials {
+  email: string;
+  password: string;
+}
+
+interface ValidationReturn {
+  publicUserData: {
+    id: `${string}-${string}-${string}-${string}`;
+    name: string;
+    rut: string;
+    status: string;
+  };
+  token: string;
+}

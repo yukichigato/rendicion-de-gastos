@@ -1,33 +1,33 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import type { UserData } from "./types.js";
+import type { UserCredentials, UserData, ValidationReturn } from "./types.js";
 import { SECRET_JWT_KEY, DB_API_URL } from "./config.js";
 
-/*
- *  @todo : Comment function
+/**
+ * Handles user login by verifying the email and password.
+ *
+ * @async
+ * @function modelUserLogin
+ *
+ * @param {UserCredentials} data - The data for user login (email and password)
+ * @returns {Promise<ValidationReturn>} - Returns a user object if authentication is successful, otherwise `null`
+ * @throws {Error} If there is an internal error during the login process
  */
-export const modelUserLogin = async (data: {
-  email: string;
-  password: string;
-}) => {
+export const modelUserLogin = async (
+  data: UserCredentials
+): Promise<ValidationReturn> => {
   const { email, password } = data;
-
-  const params = new URLSearchParams({
-    email,
-  });
+  const params = new URLSearchParams({ email });
 
   // Getting user by email
-  const response = await fetch(`${DB_API_URL}/api/users?${params.toString()}`, {
-    method: "GET",
-  });
+  const endpoint = `${DB_API_URL}/api/users?${params.toString()}`;
+  const response = await fetch(endpoint, { method: "GET" });
 
   if (!response.ok) {
     throw new Error("User not found");
   }
 
   const userData: UserData = await response.json();
-
-  console.log(email, password, userData.password);
 
   const isValidPassword = await bcrypt.compare(password, userData.password);
   if (!isValidPassword) {
@@ -55,8 +55,17 @@ export const modelUserLogin = async (data: {
   return { publicUserData, token };
 };
 
-/*
- *  @todo : Comment function
+/**
+ * Validates a JWT token by verifying its signature using the secret key.
+ *
+ * @function modelValidateToken
+ * @async
+ *
+ * @param {Object} input - The input object containing the token to be validated
+ * @param {string} input.token - The JWT token as a string (note: it has extra quotation marks around it)
+ *
+ * @returns {Omit<UserData, "password">} - The decoded token data if the token is valid
+ * @throws {Error} - Throws an error if the token is invalid or verification fails
  */
 export const modelValidateToken = (input: { token: string }) => {
   const { token } = input;
@@ -66,11 +75,8 @@ export const modelValidateToken = (input: { token: string }) => {
   // ! with extra quotation marks ('" ... "') instead of (" ... ").
   // TODO: Fix
 
-  console.log(`Token: [${realtoken}] | Key: [${SECRET_JWT_KEY}]`);
-
   try {
     const data = jwt.verify(realtoken, SECRET_JWT_KEY);
-    console.log("Token verified, data: ", data);
     return data;
   } catch (error: any) {
     throw new Error(error.message);

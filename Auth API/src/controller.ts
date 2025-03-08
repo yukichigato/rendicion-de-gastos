@@ -2,8 +2,14 @@ import type { Request, Response } from "express";
 import { validateBody } from "./schemas.js";
 import { modelUserLogin, modelValidateToken } from "./model.js";
 
-/*
- *  @todo : Comment function
+/**
+ * Validate user credentials
+ *
+ * @async
+ * @function useLogin
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ * @returns {Response} JSON with a jsonwebtoken-
  */
 export const userLogin = async (req: Request, res: Response): Promise<void> => {
   const validation = validateBody(req.body);
@@ -28,8 +34,15 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-/*
- *  @todo : Comment function
+/**
+ * Validates a jsonwebtoken and returns the information inside it if
+ * it's valid.
+ *
+ * @async
+ * @function validateToken
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ * @returns {Response} JSON response with user data.
  */
 export const validateToken = (req: Request, res: Response): void => {
   try {
