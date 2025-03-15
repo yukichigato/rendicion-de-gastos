@@ -7,6 +7,18 @@ fast and smooth client experience in the reports' dashboard.
 
 ---
 
+## Nombre y rol de los integrantes
+
+202287004-4 Andres Araya
+
+202373052-1 Bastian Jimenez
+
+202373098-K Simón Sobenes
+
+(ROL) Benjamin Camus Valdés
+
+---
+
 ## Requirements
 
 1. **Docker**: Make sure to have both Docker and Docker Compose installed locally. For a GUI experience, use [Docker Desktop](https://www.docker.com/products/docker-desktop).
