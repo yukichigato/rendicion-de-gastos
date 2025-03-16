@@ -58,6 +58,22 @@ npm run build
 npm run dev
 ```
 
+### 5. Run the client locally
+
+To use the client, type the following commands in your terminal:
+
+```bash
+cd client
+npm run dev
+```
+
+The client will run locally by default in *http://localhost:3000*.
+
+> [!WARNING]
+> We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost);
+> you have to use a gateway API like [ngrok](https://ngrok.com/) or the client might possibly break trying to fetch
+> files from Vercel.
+
 ---
 
 ## API Usage
@@ -80,16 +96,5 @@ npm run dev
 
 ## Client Usage
 
-To use the client, type the following commands in your terminal:
+Once the client and the other APIs are running, go to the correct URL to use it.
 
-```bash
-cd client
-npm run dev
-```
-
-This will run the frontend locally.
-
-> [!WARNING]
-> We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost);
-> you have to use a gateway API like [ngrok](https://ngrok.com/) or the client might possibly break trying to fetch
-> files from Vercel.
