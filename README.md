@@ -58,7 +58,12 @@ npm run build
 npm run dev
 ```
 
-### 5. Run the client locally
+### 5. Set up Vercel enviroment variables
+
+Since the app uses Vercel BLOB, ensure that you have set up the correct enviroment variables in a `.env.local` file inside the `client` folder.
+For more information, please read the documentation on how to use the Vercel BLOB API [here](https://vercel.com/docs/vercel-blob/server-upload)
+
+### 5.1 Run the client locally
 
 To use the client, type the following commands in your terminal:
 
