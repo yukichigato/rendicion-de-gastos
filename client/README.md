@@ -1,51 +1,54 @@
-# Expense Report Application Client
+# React + TypeScript + Vite
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Getting Started
+Currently, two official plugins are available:
 
-First, run the development server:
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Usage
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-> [!WARNING]
-> We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost); you have to use a gateway API like ngrok or the client might possibly break trying to fetch files from Vercel.
-
-### Getting started with nrgok (Gateway API)
-
-In this case, we will use ngrok to be able to use Vercel BLOB SDK but you can use any other solution that runs the client in *https*. Please go to ngrok's [setup page](https://dashboard.ngrok.com/get-started/setup/linux) for more detailed information.
-
-1. Install ngrok through the following bash command:
-   ```bash
-      curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
-    	| sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-    	&& echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
-    	| sudo tee /etc/apt/sources.list.d/ngrok.list \
-    	&& sudo apt update \
-    	&& sudo apt install ngrok
-   ```
-
-2. Add your authentication token with this command (you need to create an ngrok account for this step):
-
-   ```bash
-      ngrok config add-authtoken <authtoken>
-   ```
-
-3. Deploy the client online, type in your console:
-   ```bash
-      ngrok http http://localhost:3000
-   ```
-
-4. The console will show you a link you can follow to use the client.
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
