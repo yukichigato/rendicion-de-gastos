@@ -69,6 +69,7 @@ To use the client, type the following commands in your terminal:
 
 ```bash
 cd client
+npm install
 npm run dev
 ```
 
