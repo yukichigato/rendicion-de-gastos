@@ -15,7 +15,7 @@ fast and smooth client experience in the reports' dashboard.
 
 202373098-K Simón Sobenes
 
-(ROL) Benjamin Camus Valdés
+(ROL) Baltazar Portilla
 
 ---
 
