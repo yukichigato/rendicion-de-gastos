@@ -2,17 +2,15 @@ import { useId } from "react";
 import Button from "../components/Button";
 import Label from "../components/Label";
 import NumberInput from "../components/NumberInput";
-import TextInput from "../components/TextInput";
 import Select from "../components/Select";
 import ExpenseReport from "../components/ExpenseReport";
+import FileField from "../components/FileField";
 
-const Overview = () => {
+const UserOverview = () => {
   const IDs = {
-    authorName: useId(),
-    order: useId(),
-    minAmount: useId(),
-    maxAmount: useId(),
+    amount: useId(),
     type: useId(),
+    backup: useId(),
   };
 
   const expenseReportList = [
@@ -39,52 +37,17 @@ const Overview = () => {
   return (
     <main className="grid h-screen w-screen grid-cols-6 grid-rows-5 gap-4 bg-red-50 p-4">
       <aside className="col-span-2 row-span-5 mr-4 flex w-full flex-col rounded-3xl border-[.0625rem] border-gray-300 bg-white p-8 shadow-md shadow-gray-300">
-        <h1 className="mb-18 text-4xl font-semibold text-rose-500">
-          Filtros de búsqueda
+        <h1 className="mb-8 text-4xl font-semibold text-rose-500">
+          Formulario de solicitud de rendición de gastos
         </h1>
+        <p className="mb-12">
+          <span className="text-rose-500">*</span> Por favor rellene todos los
+          campos requeridos.
+        </p>
+
         <form className="flex flex-col">
           <div className="mb-4 flex flex-col">
-            <Label htmlFor={IDs.authorName} labelText="Nombre del autor" />
-            <TextInput
-              id={IDs.authorName}
-              name="author"
-              placeholder="Yukichi Takeda"
-            />
-          </div>
-
-          <div className="mb-4 flex flex-col">
-            <Label htmlFor={IDs.order} labelText="Orden" />
-            <Select
-              id={IDs.order}
-              name="order"
-              options={["Más nuevo", "Más viejo"]}
-            />
-          </div>
-
-          <div className="mb-4 flex flex-col">
-            <Label htmlFor={IDs.minAmount} labelText="Monto mínimo" />
-            <NumberInput
-              id={IDs.minAmount}
-              name="minAmount"
-              placeholder="0 CLP"
-              min={0}
-              max={9999999}
-            />
-          </div>
-
-          <div className="mb-4 flex flex-col">
-            <Label htmlFor={IDs.maxAmount} labelText="Monto máximo" />
-            <NumberInput
-              id={IDs.maxAmount}
-              name="maxAmount"
-              placeholder="100000 CLP"
-              min={0}
-              max={9999999}
-            />
-          </div>
-
-          <div className="mb-8 flex flex-col">
-            <Label htmlFor={IDs.type} labelText="Tipo" />
+            <Label htmlFor={IDs.type} labelText="Tipo" required />
             <Select
               id={IDs.type}
               name="type"
@@ -97,6 +60,23 @@ const Overview = () => {
                 "Alimentación",
               ]}
             />
+          </div>
+
+          <div className="mb-4 flex flex-col">
+            <Label htmlFor={IDs.amount} labelText="Monto" required />
+            <NumberInput
+              id={IDs.amount}
+              name="maxAmount"
+              placeholder="100000 CLP"
+              min={0}
+              max={9999999}
+              required
+            />
+          </div>
+
+          <div className="mb-8 flex flex-col">
+            <Label htmlFor={IDs.backup} labelText="Backup" required />
+            <FileField id={IDs.backup} name="backup" required />
           </div>
 
           <Button buttonText="Aplicar" />
@@ -130,4 +110,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default UserOverview;
