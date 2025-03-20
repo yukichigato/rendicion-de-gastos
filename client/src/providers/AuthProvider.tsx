@@ -26,6 +26,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           setAuthed(true);
           setLoading(false);
         }
+
+        const data = await response.json(); // TODO : Types
+        setUser(data);
+        navigate("/user-overview");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log("Error", error.message);
@@ -35,7 +39,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     handleFetch();
-  }, []);
+  }, [setUser, navigate]);
 
   const login = async (formData: FormData): Promise<void> => {
     const credentials = {
@@ -80,9 +84,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     console.log("User logged out");
     setAuthed(false);
   };
-
-  // console.log("Current auth state: ", authed);
-  // console.log("Current loading state", loading);
 
   return (
     <AuthContext.Provider value={{ authed, setAuthed, login, logout, loading }}>

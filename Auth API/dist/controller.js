@@ -72,7 +72,7 @@ export const validateToken = (req, res) => {
             throw new Error("Token not found");
         }
         const data = modelValidateToken(token);
-        res.status(200).json({ data });
+        res.status(200).json(data);
     }
     catch (error) {
         res.status(401).json({ message: error.message });

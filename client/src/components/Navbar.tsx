@@ -4,6 +4,15 @@ import { useUser } from "../hooks/useUser";
 const Navbar = () => {
   const { user } = useUser();
 
+  const sliceName = (name?: string) => {
+    if (!name) {
+      return "";
+    }
+
+    const spaceIndex = name.indexOf(" ");
+    return name.slice(0, spaceIndex);
+  };
+
   return (
     <details>
       <summary className="fixed top-0 left-0 z-[990] flex h-16 w-full bg-white shadow-md hover:cursor-pointer">
@@ -18,7 +27,7 @@ const Navbar = () => {
           <path d="m10 8-7 6V2l7 6z" />
         </svg>
         <p className="ml-8 flex items-center text-xl text-red-500">
-          Hello, {user?.name}
+          Hello, {sliceName(user?.name)}
         </p>
       </summary>
       <ul className="fixed top-16 left-0 z-10 flex list-none flex-col shadow-md">

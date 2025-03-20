@@ -81,7 +81,7 @@ export const validateToken = (req: Request, res: Response): void => {
     }
 
     const data = modelValidateToken(token);
-    res.status(200).json({ data });
+    res.status(200).json(data);
   } catch (error: any) {
     res.status(401).json({ message: error.message });
     /*
