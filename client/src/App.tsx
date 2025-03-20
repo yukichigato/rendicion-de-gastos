@@ -1,18 +1,19 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Overview from "./pages/Overview";
 import UserOverview from "./pages/UserOverview";
 import Login from "./pages/Login";
 import { useAuth } from "./hooks/useAuth";
 import { type AuthContextType } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const { loading } = useAuth() as AuthContextType;
 
   return (
     <Routes>
-      <Route path="login" element={<Login />}></Route>
-
+      <Route index element={<Navigate to="/login" replace />} />
+      <Route path="login" element={<Login />} />
       <Route
         path="overview"
         element={
@@ -20,20 +21,23 @@ const App = () => {
             <p>Loading</p>
           ) : (
             <ProtectedRoute>
+              <Navbar />
+              <div className="h-16"></div>
               <Overview />
             </ProtectedRoute>
           )
         }
-      ></Route>
-
+      />
       <Route
         path="user-overview"
         element={
           <ProtectedRoute>
+            <Navbar />
+            <div className="h-16"></div>
             <UserOverview />
           </ProtectedRoute>
         }
-      ></Route>
+      />
     </Routes>
   );
 };

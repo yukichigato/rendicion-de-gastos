@@ -1,9 +1,13 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/useUser";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authed, setAuthed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const { setUser } = useUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -17,13 +21,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         );
 
         if (!response.ok) {
-          setAuthed(false);
+          throw new Error("Error to authenticate"); // TODO : Better error handling
         } else {
           setAuthed(true);
+          setLoading(false);
         }
-        setLoading(false);
-      } catch {
-        console.log("Error");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.log("Error", error.message);
         setAuthed(false);
         setLoading(false);
       }
@@ -52,8 +57,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    const data = await response.json(); // TODO : Types
+    setUser(data);
+
     console.log("User logged in");
     setAuthed(true);
+    navigate("/user-overview");
   };
 
   const logout = async (): Promise<void> => {
@@ -67,12 +76,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    setUser(undefined);
     console.log("User logged out");
     setAuthed(false);
   };
 
-  console.log("Current auth state: ", authed);
-  console.log("Current loading state", loading);
+  // console.log("Current auth state: ", authed);
+  // console.log("Current loading state", loading);
 
   return (
     <AuthContext.Provider value={{ authed, setAuthed, login, logout, loading }}>
