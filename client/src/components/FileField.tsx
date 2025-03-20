@@ -1,5 +1,3 @@
-import React from "react";
-
 const FileField = (props: { id: string; name: string; required?: boolean }) => {
   const { id, name, required = false } = props;
   return (

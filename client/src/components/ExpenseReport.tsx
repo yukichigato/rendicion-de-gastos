@@ -1,7 +1,6 @@
 // TODO : Fix types
 
 const ExpenseReport = (props: {
-  key: string;
   status: string;
   author: string;
   date: string;
@@ -9,13 +8,10 @@ const ExpenseReport = (props: {
   amount: number;
   downloadurl: string;
 }) => {
-  const { key, author, date, type, amount, downloadurl } = props;
+  const { author, date, type, amount, downloadurl } = props;
 
   return (
-    <article
-      key={key}
-      className="flex flex-col rounded-lg border-[.0625rem] border-gray-300 shadow-md"
-    >
+    <>
       <header className="bg-gray-800">
         <p className="pt-1 pr-2 pb-1 pl-2 text-lg text-white">
           <span className="font-bold">Status:</span> Accepted
@@ -40,7 +36,7 @@ const ExpenseReport = (props: {
           <a download={downloadurl}>Download</a>
         </button>
       </main>
-    </article>
+    </>
   );
 };
 

@@ -114,15 +114,19 @@ const Overview = () => {
         </header>
         <main className="flex flex-col gap-4">
           {expenseReportList.map((report) => (
-            <ExpenseReport
+            <article
               key={report.id}
-              status={report.status}
-              author={report.author}
-              date={report.date}
-              type={report.type}
-              amount={report.amount}
-              downloadurl={report.downloadurl}
-            />
+              className="flex flex-col rounded-lg border-[.0625rem] border-gray-300 shadow-md"
+            >
+              <ExpenseReport
+                status={report.status}
+                author={report.author}
+                date={report.date}
+                type={report.type}
+                amount={report.amount}
+                downloadurl={report.downloadurl}
+              />
+            </article>
           ))}
         </main>
       </section>

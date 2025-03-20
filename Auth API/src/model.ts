@@ -67,16 +67,14 @@ export const modelUserLogin = async (
  * @returns {Omit<UserData, "password">} - The decoded token data if the token is valid
  * @throws {Error} - Throws an error if the token is invalid or verification fails
  */
-export const modelValidateToken = (input: { token: string }) => {
-  const { token } = input;
-
-  const realtoken = token.slice(1, -1);
-  // ! This is really bad, but for whatever reason the token is getting sent
-  // ! with extra quotation marks ('" ... "') instead of (" ... ").
-  // TODO: Fix
+export const modelValidateToken = (token: string) => {
+  // // const realtoken = token.slice(1, -1);
+  // // ! This is really bad, but for whatever reason the token is getting sent
+  // // ! with extra quotation marks ('" ... "') instead of (" ... ").
+  // // TODO: Fix
 
   try {
-    const data = jwt.verify(realtoken, SECRET_JWT_KEY);
+    const data = jwt.verify(token, SECRET_JWT_KEY);
     return data;
   } catch (error: any) {
     throw new Error(error.message);

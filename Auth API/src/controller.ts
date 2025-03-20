@@ -1,12 +1,13 @@
 import type { Request, Response } from "express";
 import { validateBody } from "./schemas.js";
 import { modelUserLogin, modelValidateToken } from "./model.js";
+import cookieParser from "cookie-parser";
 
 /**
  * Validate user credentials
  *
  * @async
- * @function useLogin
+ * @function userLogin
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  * @returns {Response} JSON with a jsonwebtoken-
@@ -25,13 +26,39 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const data = await modelUserLogin(validation.data);
 
-    res.json(JSON.stringify(data.token));
+    res
+      .status(200)
+      .cookie("auth_token", data.token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 72,
+        sameSite: "strict",
+      })
+      .send(data.publicUserData);
   } catch (error: any) {
     res.status(401).json({ message: error.message });
     /*
      *  @todo : Proper status and error handling
      */
   }
+};
+
+/**
+ * Removes a cookie
+ *
+ * @async
+ * @function userLogout
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ * @returns {Response} JSON with a success message.
+ */
+export const userLogout = (_: Request, res: Response): void => {
+  res.clearCookie("auth_token", {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 72,
+    sameSite: "strict",
+  });
+
+  res.status(200).json({ message: "Logout successful " });
 };
 
 /**
@@ -46,11 +73,15 @@ export const userLogin = async (req: Request, res: Response): Promise<void> => {
  */
 export const validateToken = (req: Request, res: Response): void => {
   try {
-    // ! This is NOT verified with Zod
-    // TODO : Implement Zod verification
+    const token = req.cookies.auth_token;
 
-    const data = modelValidateToken(req.body);
-    res.json(data);
+    if (!token) {
+      console.log("token not found");
+      throw new Error("Token not found");
+    }
+
+    const data = modelValidateToken(token);
+    res.status(200).json({ data });
   } catch (error: any) {
     res.status(401).json({ message: error.message });
     /*

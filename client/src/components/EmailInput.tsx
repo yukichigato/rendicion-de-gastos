@@ -9,9 +9,9 @@ const EmailInput = ({
 }) => {
   return (
     <input
+      id={id}
       type="email"
       name="email"
-      id={id}
       className="w-full rounded-md border-[.0625rem] border-gray-300 p-2"
       placeholder={placeholder}
       required={required}
