@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, Literal
+from fastapi import File, UploadFile
 
 class NewUser(BaseModel):
     name: str
@@ -31,7 +32,7 @@ class Report(BaseModel):
     author_id: str
     type: str = "Otros"
     amount: int
-    backup_url: str
+    # file: UploadFile = File(...)
 
 class StatusUpdate(BaseModel):
     status: str

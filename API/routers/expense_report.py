@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException, Query, status
-from ..models.expense_report import createOne, getMany, getOne, updateOne
+from fastapi import APIRouter, HTTPException, Query, status, Form
+from fastapi.responses import StreamingResponse
+from ..models.expense_report import create_one, get_many, get_one, update_one, get_file
 from ..types import *
 
 reportRouter = APIRouter(prefix="/api/expense_report")
@@ -25,13 +26,12 @@ def get_report_by_id(id: str):             # TODO : Update this with the proper 
         "author_id": "2d0ca061-e786-4f75-ac81-09c009285ba7",
         "type": "Otros",
         "amount": 1000,
-        "backup_url": "https://example.com/backup",
         "created_at": 2013-01-02 03:45:00,
         "status": "Pending"
     }
     """
     try:
-        rows = getOne(id)
+        rows = get_one(id)
         return rows
     except Exception as error:
         print(f"Server Error: {str(error)}")
@@ -40,7 +40,7 @@ def get_report_by_id(id: str):             # TODO : Update this with the proper 
             detail = "An unexpected error occurred while processing your request."
         )
     
-@reportRouter.get('')
+@reportRouter.get('/')
 def get_many_reports(
     author_id: str = Query(None),   # TODO : Update this with the proper UUIDv4 type
     name: str = Query(None),
@@ -78,7 +78,6 @@ def get_many_reports(
             "author_id": "2d0ca061-e786-4f75-ac81-09c009285ba7",
             "type": "Otros",
             "amount": 1000,
-            "backup_url": "https://example.com/backup",
             "created_at": 2013-01-02 03:45:00,
             "status": "Pending"
         },
@@ -86,14 +85,13 @@ def get_many_reports(
             "author_id": "cb717c99-7d9c-43cd-a614-5d039baa39d2",
             "type": "Otros",
             "amount": 3400,
-            "backup_url": "https://example.com/backup2",
             "created_at": 2013-01-01 16:45:00,
             "status": "Accepted"
         }
     ]
     """
     try:
-        rows = getMany(
+        rows = get_many(
             author_id,
             name,
             type,
@@ -112,7 +110,14 @@ def get_many_reports(
         )
 
 @reportRouter.post("")
-def post_new_report(reportData: Report):
+async def post_new_report(
+  type: str = Form(...),
+  amount: int = Form(...),
+  file_name: str = Form(...), 
+  file: UploadFile = File(...),
+  author_id: str = Form(...)
+):
+    # TODO : Update
     """
     Creates a new report based on the provided `reportData`.
 
@@ -121,7 +126,6 @@ def post_new_report(reportData: Report):
         - `author_id`: The ID of the report's author. UUIDv4 string.
         - `type`: The report's type, has to be one of the allowed strings in the database.
         - `amount`: The amount related to the report, positive.
-        - `backup_url`: A URL for the expense backup.
 
     - **Returns**:
       - The newly created UUID for the expense report. (`newID`).
@@ -136,17 +140,17 @@ def post_new_report(reportData: Report):
         "author_id": "2d0ca061-e786-4f75-ac81-09c009285ba7",
         "type": "Otros",
         "amount": 1000,
-        "backup_url": "https://example.com/backup"
     }
     Response: 
     { "newID": "522768a3-dd71-4ffb-a123-e72f1520f645" }
     """
     try:
-        newID = createOne(
-            reportData.author_id,
-            reportData.type,
-            reportData.amount,
-            reportData.backup_url
+        newID = await create_one(
+            type,
+            amount,
+            file_name,
+            file,
+            author_id
         )
         return newID
     except Exception as error:
@@ -157,7 +161,7 @@ def post_new_report(reportData: Report):
         )
     
 @reportRouter.patch("/{id}")
-def patchRerort(id: str, status_update: StatusUpdate):             # TODO : Update this with the proper UUIDv4 type
+def patch_report(id: str, status_update: StatusUpdate):             # TODO : Update this with the proper UUIDv4 type
     """
     Updates an expense report's status that matches the parameter ID.
 
@@ -173,8 +177,31 @@ def patchRerort(id: str, status_update: StatusUpdate):             # TODO : Upda
     { "status": "Accepted" }
     """
     try:
-        updateOne(id, status_update.status)
+        update_one(id, status_update.status)
         return
+    except Exception as error:
+        print(f"Server Error: {str(error)}")
+        raise HTTPException(
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = "An unexpected error occurred while processing your request."
+        )
+    
+@reportRouter.get("/file/{id}")
+async def get_one_file(id: str):
+    try:
+        file_stream, mime_type, headers = get_file(id)
+
+        '''
+        # Since we're working with file-like objects, we use a streaming response, not 
+        # a JSONResponse(), used by default by FastAPI
+
+        
+        # Please keep in mind that returning 
+        #   {"id": rows["id"], "title": rows["title"], "file": StreamingResponse(BytesIO(rows["file"]))}
+        # is NOT possible, since it's a different response type (JSONResponse()).
+        '''
+        return StreamingResponse(file_stream, media_type = mime_type, headers = headers)
+    
     except Exception as error:
         print(f"Server Error: {str(error)}")
         raise HTTPException(

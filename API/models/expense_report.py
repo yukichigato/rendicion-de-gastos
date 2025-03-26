@@ -1,9 +1,11 @@
 from ..utils import connection
-from psycopg2 import DatabaseError
+from psycopg2 import DatabaseError, Binary
+from io import BytesIO
 from typing import *
 from ..types import *
+import mimetypes
     
-def makeGetManyQuery (
+def generate_get_many_query (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
     name: str,
     type: str,      # TODO : Update this with the proper ExpenseType type
@@ -19,7 +21,6 @@ def makeGetManyQuery (
             type, 
             amount, 
             expense_report.status,
-            backup_url, 
             expense_report.created_at
         FROM expense_report 
         LEFT JOIN users ON expense_report.author_id = users.id
@@ -58,7 +59,7 @@ def makeGetManyQuery (
     return base_query, params
 
 
-def getMany (
+def get_many (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
     name: str,
     type: ReportType,
@@ -91,7 +92,7 @@ def getMany (
     """
     cursor = connection.cursor()
 
-    query, params = makeGetManyQuery(author_id, name, type, minAmount, maxAmount, order)
+    query, params = generate_get_many_query(author_id, name, type, minAmount, maxAmount, order)
     params.append(limit)
     params.append(offset)
 
@@ -109,7 +110,7 @@ def getMany (
             return []
         return None
     
-def getOne (id: str):
+def get_one (id: str):
     """
     Retrieves a single expense report by its ID.
 
@@ -117,7 +118,7 @@ def getOne (id: str):
       - `id` (str): The unique identifier of the expense report.
 
     - **Returns**:
-      - `tuple`: A tuple containing (`author_id`, `type`, `amount`, `backup_url`, `created_at`, `status`).
+      - `tuple`: A tuple containing (`author_id`, `type`, `amount`, `created_at`, `status`).
       - `[]`: If no report is found.
       - `None`: If a database error occurs.
 
@@ -127,7 +128,7 @@ def getOne (id: str):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "SELECT author_id, type, amount, backup_url, created_at, status FROM expense_report WHERE id = %s",
+            "SELECT author_id, type, amount, created_at, status FROM expense_report WHERE id = %s",
             (id,)
         )
         rows = cursor.fetchone()
@@ -143,12 +144,14 @@ def getOne (id: str):
             return []
         return None
     
-def createOne (
-    author_id: str,
+async def create_one (
     type: str,
     amount: int,
-    backup_url: str
+    file_name: str,
+    file: UploadFile,
+    author_id: str
 ):
+    # TODO : Update
     """
     Inserts a new expense report into the database.
 
@@ -156,7 +159,6 @@ def createOne (
       - `author_id` (str): The ID of the report's author.
       - `type` (str): The type of the expense report.
       - `amount` (int): The amount related to the report.
-      - `backup_url` (str): A URL for backup or reference data.
 
     - **Returns**:
       - `tuple`: A tuple containing the newly created report's ID.
@@ -168,16 +170,17 @@ def createOne (
     """
     cursor = connection.cursor()
     try:
+        binary_data = await file.read()
         cursor.execute(
-            "INSERT INTO expense_report (author_id, type, amount, backup_url) VALUES (%s, %s, %s, %s) RETURNING id",
-            (author_id, type, amount, backup_url)
+            "INSERT INTO expense_report (author_id, type, amount, file_name, file) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+            (author_id, type, amount, file_name, Binary(binary_data))
         )
-        newID = cursor.fetchone()
+        row = cursor.fetchone()
         connection.commit()
         cursor.close()
-        if newID is None:
-            return []
-        return newID
+        if row is None:
+            return { "id": "" }
+        return {"id": row["id"]}
     
     except DatabaseError as error:
         print(f"Database error: {error}")
@@ -185,7 +188,7 @@ def createOne (
         cursor.close()
         return None
     
-def updateOne(id: str, status: str):
+def update_one(id: str, status: str):
     """
     Updates the status of an expense report.
 
@@ -208,6 +211,40 @@ def updateOne(id: str, status: str):
         connection.commit()
         cursor.close()
         return
+    
+    except DatabaseError as error:
+        print(f"Database error: {error}")
+        connection.rollback()
+        cursor.close()
+        return None
+    
+def get_file(id: str):
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT file_name, file FROM expense_report WHERE id = %s", (id,))
+        row = cursor.fetchone()
+        cursor.close()
+
+        # if row is None:
+        #     return None, None, None
+        
+        # Fetching file name and file-like
+        file_name = row["file_name"]
+        file_like = row["file"]
+
+        # Guessing file type (PDF, PNG, JPG...)
+        mime_type, _ = mimetypes.guess_type(file_name)
+        if mime_type is None:
+            mime_type = "application/octet-stream"
+
+        headers = {
+            "Content-Disposition": f"attachment; filename={file_name}"
+        }
+
+        # We read the bytes from the file
+        file_stream = BytesIO(file_like)
+
+        return file_stream, mime_type, headers
     
     except DatabaseError as error:
         print(f"Database error: {error}")

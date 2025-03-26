@@ -25,11 +25,11 @@ CREATE TABLE IF NOT EXISTS expense_report (
     "id"            UUID DEFAULT gen_random_uuid(),
     "author_id"     UUID NOT NULL,
     "type"          expense_type NOT NULL DEFAULT 'Otros',
-    "amount"        INTEGER NOT NULL CHECK (amount >= 0) DEFAULT 0,
-    "backup_url"    TEXT NOT NULL DEFAULT '',
-    "created_at"    TIMESTAMP DEFAULT NOW(),
     "status"        expense_report_status NOT NULL DEFAULT 'Pending',
-    "comment"       TEXT DEFAULT '',
+    "amount"        INTEGER NOT NULL CHECK (amount >= 0) DEFAULT 0,
+    "file_name"     TEXT NOT NULL,
+    "file"          BYTEA NOT NULL,
+    "created_at"    TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (author_id) REFERENCES users(id)
 );
 
