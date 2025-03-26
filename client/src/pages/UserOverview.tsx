@@ -5,10 +5,10 @@ import NumberInput from "../components/NumberInput";
 import Select from "../components/Select";
 import ExpenseReport from "../components/ExpenseReport";
 import FileField from "../components/FileField";
-
 import { useUser } from "../hooks/useUser";
 import { User, type UserContextType } from "../context/UserContext";
 import queryString from "query-string";
+import { type Report } from "../types";
 
 const UserOverview = () => {
   const IDs = {
@@ -19,7 +19,7 @@ const UserOverview = () => {
 
   const { user = {} as User } = useUser() as UserContextType;
 
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<Report[]>([]);
 
   const uploadReport = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

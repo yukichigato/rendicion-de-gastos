@@ -5,6 +5,7 @@ import NumberInput from "../components/NumberInput";
 import TextInput from "../components/TextInput";
 import Select from "../components/Select";
 import ExpenseReport from "../components/ExpenseReport";
+import { type Report } from "../types";
 
 const Overview = () => {
   const IDs = {
@@ -15,7 +16,7 @@ const Overview = () => {
     type: useId(),
   };
 
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<Report[]>([]);
 
   useEffect(() => {
     const fetch_reports = async () => {
