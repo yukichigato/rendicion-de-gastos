@@ -26,7 +26,9 @@ export const userLogin = async (req, res) => {
             .cookie("auth_token", data.token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 72,
-            sameSite: "strict",
+            // secure: true, // Required for SameSite=None (must use HTTPS)
+            // sameSite: "none", // Allows cross-site usage
+            // path: "/",
         })
             .send(data.publicUserData);
     }
@@ -47,11 +49,7 @@ export const userLogin = async (req, res) => {
  * @returns {Response} JSON with a success message.
  */
 export const userLogout = (_, res) => {
-    res.clearCookie("auth_token", {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 72,
-        sameSite: "strict",
-    });
+    res.clearCookie("auth_token");
     res.status(200).json({ message: "Logout successful " });
 };
 /**

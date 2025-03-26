@@ -7,7 +7,7 @@ export const setupMiddleware = (app: express.Application) => {
   app.use(express.json());
   app.use(
     cors({
-      origin: "*", // Change this to the actual frontend URL in production
+      origin: true, // Change this to the actual frontend URL in production
       credentials: true,
     })
   );
