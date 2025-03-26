@@ -15,7 +15,7 @@ fast and smooth client experience in the reports' dashboard.
 
 202373098-K Simón Sobenes
 
-(ROL) Benjamin Camus
+(ROL) Baltazar Portilla
 
 ---
 
@@ -73,7 +73,7 @@ npm install
 npm run dev
 ```
 
-The client will run locally by default in *http://localhost:3000*.
+The client will run locally by default in _http://localhost:3000_.
 
 > [!WARNING]
 > We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost);
@@ -103,4 +103,3 @@ The client will run locally by default in *http://localhost:3000*.
 ## Client Usage
 
 Once the client and the other APIs are running, go to the correct URL to use it.
-
