@@ -12,10 +12,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route index element={<Navigate to="/login" replace />} />
-      <Route path="login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Login />} />
       <Route
-        path="overview"
+        path="/overview"
         element={
           loading ? (
             <p>Loading</p>
@@ -29,13 +29,17 @@ const App = () => {
         }
       />
       <Route
-        path="user-overview"
+        path="/user-overview"
         element={
-          <ProtectedRoute>
-            <Navbar />
-            <div className="h-16"></div>
-            <UserOverview />
-          </ProtectedRoute>
+          loading ? (
+            <p>Loading</p>
+          ) : (
+            <ProtectedRoute>
+              <Navbar />
+              <div className="h-16"></div>
+              <UserOverview />
+            </ProtectedRoute>
+          )
         }
       />
     </Routes>

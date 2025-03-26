@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authed, setAuthed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const location = useLocation();
   const { setUser } = useUser();
   const navigate = useNavigate();
 
@@ -29,7 +30,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const data = await response.json(); // TODO : Types
         setUser(data);
-        navigate("/user-overview");
+        if (location.pathname === "/login") {
+          navigate("/user-overview");
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log("Error", error.message);
@@ -39,7 +42,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     handleFetch();
-  }, [setUser, navigate]);
+  }, [setUser, navigate, location]);
 
   const login = async (formData: FormData): Promise<void> => {
     const credentials = {

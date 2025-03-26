@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useEffect, useId, useState } from "react";
 import Button from "../components/Button";
 import Label from "../components/Label";
 import NumberInput from "../components/NumberInput";
@@ -15,26 +15,31 @@ const Overview = () => {
     type: useId(),
   };
 
-  const expenseReportList = [
-    {
-      id: "1",
-      status: "Aceptado",
-      author: "Yukichi",
-      date: "2024-01-01",
-      type: "Otros",
-      amount: 2000,
-      downloadurl: "url",
-    },
-    {
-      id: "2",
-      status: "Aceptado",
-      author: "Yukichi",
-      date: "2024-01-01",
-      type: "Otros",
-      amount: 2000,
-      downloadurl: "url",
-    },
-  ];
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    const fetch_reports = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/expense_report/`,
+          {
+            method: "GET",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error("error");
+        }
+
+        const reports = await response.json();
+        setReports(reports);
+      } catch {
+        console.log("Error");
+      }
+    };
+
+    fetch_reports();
+  });
 
   return (
     <main className="grid h-screen w-screen grid-cols-6 grid-rows-5 gap-4 bg-red-50 p-4">
@@ -113,18 +118,18 @@ const Overview = () => {
           </p>
         </header>
         <main className="flex flex-col gap-4">
-          {expenseReportList.map((report) => (
+          {reports.map((report) => (
             <article
               key={report.id}
               className="flex flex-col rounded-lg border-[.0625rem] border-gray-300 shadow-md"
             >
               <ExpenseReport
                 status={report.status}
-                author={report.author}
-                date={report.date}
+                author={report.name}
+                date={report.created_at.slice(0, 10)}
                 type={report.type}
                 amount={report.amount}
-                downloadurl={report.downloadurl}
+                downloadurl={""}
               />
             </article>
           ))}

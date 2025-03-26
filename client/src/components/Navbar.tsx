@@ -1,8 +1,11 @@
 import { IoMenuSharp } from "react-icons/io5";
 import { useUser } from "../hooks/useUser";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useUser();
+  const { logout } = useAuth();
 
   const sliceName = (name?: string) => {
     if (!name) {
@@ -32,12 +35,15 @@ const Navbar = () => {
       </summary>
       <ul className="fixed top-16 left-0 z-10 flex list-none flex-col shadow-md">
         <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-red-500">
-          Your submissions
+          <Link to={"/user-overview"}>Your submissions</Link>
         </li>
         <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-red-500">
-          Dashboard
+          <Link to={"/overview"}>Dashboard</Link>
         </li>
-        <li className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-red-500">
+        <li
+          onClick={logout}
+          className="boder-b-0 items-center border-b-[.0625rem] border-white bg-red-500 p-2 text-xl text-white transition-all duration-200 hover:cursor-pointer hover:bg-white hover:text-red-500"
+        >
           Log-out
         </li>
       </ul>

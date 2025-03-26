@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { FormEvent, useEffect, useId, useState } from "react";
 import Button from "../components/Button";
 import Label from "../components/Label";
 import NumberInput from "../components/NumberInput";
@@ -6,35 +6,83 @@ import Select from "../components/Select";
 import ExpenseReport from "../components/ExpenseReport";
 import FileField from "../components/FileField";
 
+import { useUser } from "../hooks/useUser";
+import { User, type UserContextType } from "../context/UserContext";
+import queryString from "query-string";
+
 const UserOverview = () => {
   const IDs = {
     amount: useId(),
     type: useId(),
-    backup: useId(),
+    file: useId(),
   };
 
-  // const [expenseReports, setExpenseReports] = useState([]);
+  const { user = {} as User } = useUser() as UserContextType;
 
-  const expenseReportList = [
-    {
-      id: "1",
-      status: "Aceptado",
-      author: "Yukichi",
-      date: "2024-01-01",
-      type: "Otros",
-      amount: 2000,
-      downloadurl: "url",
-    },
-    {
-      id: "2",
-      status: "Aceptado",
-      author: "Yukichi",
-      date: "2024-01-01",
-      type: "Otros",
-      amount: 2000,
-      downloadurl: "url",
-    },
-  ];
+  const [reports, setReports] = useState([]);
+
+  const uploadReport = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    formData.append("author_id", user.id);
+
+    const fileInput: HTMLInputElement = document.getElementById(
+      IDs.file,
+    ) as HTMLInputElement;
+
+    if (fileInput && fileInput.files?.length) {
+      formData.append("file_name", fileInput.files[0].name);
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/api/expense_report", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("error");
+      }
+
+      window.location.reload();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(`Error: ${error.message}`);
+      } else {
+        console.error("Unknown error");
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetch_reports = async () => {
+      try {
+        const queryURL = queryString.stringify({
+          author_id: user.id,
+        });
+
+        const response = await fetch(
+          `http://localhost:8000/api/expense_report/?${queryURL}`,
+          {
+            method: "GET",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error("error");
+        }
+
+        const reports = await response.json();
+        setReports(reports);
+      } catch {
+        console.log("Error");
+      }
+    };
+
+    fetch_reports();
+  }, [user]);
 
   return (
     <main className="grid h-screen w-screen grid-cols-6 grid-rows-5 gap-4 bg-red-50 p-4">
@@ -47,7 +95,11 @@ const UserOverview = () => {
           campos requeridos.
         </p>
 
-        <form className="flex flex-col">
+        <form
+          onSubmit={uploadReport}
+          className="flex flex-col"
+          encType="multipart/form-data"
+        >
           <div className="mb-4 flex flex-col">
             <Label htmlFor={IDs.type} labelText="Tipo" required />
             <Select
@@ -68,7 +120,7 @@ const UserOverview = () => {
             <Label htmlFor={IDs.amount} labelText="Monto" required />
             <NumberInput
               id={IDs.amount}
-              name="maxAmount"
+              name="amount"
               placeholder="100000 CLP"
               min={0}
               max={9999999}
@@ -77,8 +129,8 @@ const UserOverview = () => {
           </div>
 
           <div className="mb-8 flex flex-col">
-            <Label htmlFor={IDs.backup} labelText="Backup" required />
-            <FileField id={IDs.backup} name="backup" required />
+            <Label htmlFor={IDs.file} labelText="File" required />
+            <FileField id={IDs.file} name="file" required />
           </div>
 
           <Button buttonText="Aplicar" />
@@ -95,18 +147,18 @@ const UserOverview = () => {
           </p>
         </header>
         <main className="flex flex-col gap-4">
-          {expenseReportList.map((report) => (
+          {reports.map((report) => (
             <article
               key={report.id}
               className="flex flex-col rounded-lg border-[.0625rem] border-gray-300 shadow-md"
             >
               <ExpenseReport
                 status={report.status}
-                author={report.author}
-                date={report.date}
+                author={report.name}
+                date={report.created_at.slice(0, 10)}
                 type={report.type}
                 amount={report.amount}
-                downloadurl={report.downloadurl}
+                downloadurl={""}
               />
             </article>
           ))}
