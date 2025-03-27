@@ -1,15 +1,18 @@
 services:
-  web:
-    build: .
-    ports:
-      - "8000:8000"
+  db_api:
+    build: ./db_api
+    container_name: db_api_inf225
+    restart: always
     volumes:
-      - .:/API
+      - .:/db_api
     depends_on:
       - db
+    ports:
+      - "8000:8000"
 
   db:
     image: postgres:14
+    container_name: db_inf255
     environment:
       POSTGRES_USER: ayds123
       POSTGRES_PASSWORD: ayds123
@@ -17,4 +20,4 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db_api/init.sql:/docker-entrypoint-initdb.d/init.sql

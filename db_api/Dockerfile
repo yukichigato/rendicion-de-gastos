@@ -6,7 +6,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 
 # Establecer el directorio de trabajo
-WORKDIR /API
+WORKDIR /db_api
 
 # Copiar los archivos de requerimientos
 COPY requirements.txt .
