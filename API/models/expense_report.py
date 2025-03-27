@@ -1,4 +1,5 @@
 from ..utils import connection
+from fastapi import UploadFile
 from psycopg2 import DatabaseError, Binary
 from io import BytesIO
 from typing import *
@@ -62,7 +63,7 @@ def generate_get_many_query (
 def get_many (
     author_id: str, # TODO : Update this with the proper UUIDv4 type
     name: str,
-    type: ReportType,
+    type: ExpenseType,
     minAmount: int,
     maxAmount: int,
     limit: int,

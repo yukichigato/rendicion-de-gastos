@@ -1,9 +1,9 @@
 import { useEffect, useId, useState } from "react";
 import Button from "../components/Button";
 import Label from "../components/Label";
+import Select from "../components/Select";
 import NumberInput from "../components/NumberInput";
 import TextInput from "../components/TextInput";
-import Select from "../components/Select";
 import ExpenseReport from "../components/ExpenseReport";
 import { type Report } from "../types";
 
@@ -15,31 +15,29 @@ const Overview = () => {
     maxAmount: useId(),
     type: useId(),
   };
-
   const [reports, setReports] = useState<Report[]>([]);
 
   useEffect(() => {
     const fetch_reports = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/api/expense_report/`,
-          {
-            method: "GET",
-          },
-        );
+      const response = await fetch(
+        `http://localhost:8000/api/expense_report/`,
+        {
+          method: "GET",
+        },
+      );
 
-        if (!response.ok) {
-          throw new Error("error");
-        }
-
-        const reports = await response.json();
-        setReports(reports);
-      } catch {
-        console.log("Error");
+      if (!response.ok) {
+        console.error("An error fetching expense reports has just happened.");
+        return;
       }
+
+      const reports = await response.json();
+      setReports(reports);
     };
 
-    fetch_reports();
+    if (reports.length === 0) {
+      fetch_reports();
+    }
   });
 
   return (

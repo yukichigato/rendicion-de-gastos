@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Literal
-from fastapi import File, UploadFile
+from typing import Literal
 
 class NewUser(BaseModel):
     name: str
@@ -32,9 +31,8 @@ class Report(BaseModel):
     author_id: str
     type: str = "Otros"
     amount: int
-    # file: UploadFile = File(...)
 
 class StatusUpdate(BaseModel):
     status: str
 
-ReportType = Literal["Materiales", "Social", "Estadías", "Necesidades", "Alimentación", "Otros"]
+ExpenseType = Literal["Materiales", "Social", "Estadías", "Necesidades", "Alimentación", "Otros"]

@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, HTTPException, Query, status, UploadFile
 from ..models.users import findUsers, findUserByID, createUser, findUserByEmail
-from ..types import NewUser, Optional
+from ..types import NewUser
+from typing import Optional
 
 userRouter = APIRouter(prefix="/api/users")
 

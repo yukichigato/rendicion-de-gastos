@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query, status, Form
+from fastapi import APIRouter, HTTPException, status, UploadFile, Form, File,  Query
 from fastapi.responses import StreamingResponse
 from ..models.expense_report import create_one, get_many, get_one, update_one, get_file
 from ..types import *
@@ -44,7 +44,7 @@ def get_report_by_id(id: str):             # TODO : Update this with the proper 
 def get_many_reports(
     author_id: str = Query(None),   # TODO : Update this with the proper UUIDv4 type
     name: str = Query(None),
-    type: ReportType = Query(None),
+    type: ExpenseType = Query(None),
     minAmount: int = Query(None),
     maxAmount: int = Query(None),
     limit: int = Query(999),

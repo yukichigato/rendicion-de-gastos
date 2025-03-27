@@ -60,7 +60,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     if (!response.ok) {
-      console.error("Error"); // TODO : Better error handling
+      console.error("There has been an error authenticating you."); // TODO : Better error handling
       return;
     }
 
@@ -79,12 +79,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     if (!response.ok) {
-      console.error("Logout unsuccessful");
+      console.error("Logout unsuccessful.");
       return;
     }
 
     setUser(undefined);
-    console.log("User logged out");
     setAuthed(false);
   };
 

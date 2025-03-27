@@ -1,13 +1,14 @@
 import { FormEvent, useEffect, useId, useState } from "react";
+import { useUser } from "../hooks/useUser";
 import Button from "../components/Button";
 import Label from "../components/Label";
-import NumberInput from "../components/NumberInput";
 import Select from "../components/Select";
+import NumberInput from "../components/NumberInput";
 import ExpenseReport from "../components/ExpenseReport";
 import FileField from "../components/FileField";
-import { useUser } from "../hooks/useUser";
-import { User, type UserContextType } from "../context/UserContext";
 import queryString from "query-string";
+import { type UserContextType } from "../context/UserContext";
+import { type User } from "../types";
 import { type Report } from "../types";
 
 const UserOverview = () => {
@@ -16,73 +17,67 @@ const UserOverview = () => {
     type: useId(),
     file: useId(),
   };
-
   const { user = {} as User } = useUser() as UserContextType;
-
   const [reports, setReports] = useState<Report[]>([]);
 
   const uploadReport = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Creating the form, appending author_id and file_name
     const formData = new FormData(event.target as HTMLFormElement);
-
-    formData.append("author_id", user.id);
-
-    const fileInput: HTMLInputElement = document.getElementById(
-      IDs.file,
-    ) as HTMLInputElement;
+    const fileInput = document.getElementById(IDs.file) as HTMLInputElement;
 
     if (fileInput && fileInput.files?.length) {
       formData.append("file_name", fileInput.files[0].name);
+      formData.append("author_id", user.id);
+    } else {
+      console.error(
+        "There's no files to upload, please add a file and try again.",
+      );
+      return;
     }
 
-    try {
-      const response = await fetch("http://localhost:8000/api/expense_report", {
-        method: "POST",
-        body: formData,
-      });
+    const response = await fetch("http://localhost:8000/api/expense_report", {
+      method: "POST",
+      body: formData,
+    });
 
-      if (!response.ok) {
-        throw new Error("error");
-      }
-
-      window.location.reload();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(`Error: ${error.message}`);
-      } else {
-        console.error("Unknown error");
-      }
+    if (!response.ok) {
+      console.error("Unable to create expense report.");
+      return;
     }
+
+    window.location.reload();
   };
 
   useEffect(() => {
     const fetch_reports = async () => {
-      try {
-        const queryURL = queryString.stringify({
-          author_id: user.id,
-        });
+      const queryURL = queryString.stringify({
+        author_id: user.id,
+      });
 
-        const response = await fetch(
-          `http://localhost:8000/api/expense_report/?${queryURL}`,
-          {
-            method: "GET",
-          },
+      const response = await fetch(
+        `http://localhost:8000/api/expense_report/?${queryURL}`,
+        {
+          method: "GET",
+        },
+      );
+
+      if (!response.ok) {
+        console.error(
+          "An error fetching your expense reports has just happened.",
         );
-
-        if (!response.ok) {
-          throw new Error("error");
-        }
-
-        const reports = await response.json();
-        setReports(reports);
-      } catch {
-        console.log("Error");
+        return;
       }
+
+      const reports = await response.json();
+      setReports(reports);
     };
 
-    fetch_reports();
-  }, [user]);
+    if (reports.length === 0) {
+      fetch_reports();
+    }
+  }, [user.id, reports.length]);
 
   return (
     <main className="grid h-screen w-screen grid-cols-6 grid-rows-5 gap-4 bg-red-50 p-4">
