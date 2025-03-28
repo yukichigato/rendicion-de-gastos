@@ -53,17 +53,11 @@ docker-compose up --build
 Run these commands to start the Authentication API:
 
 ```bash
-cd Auth\ API
-npm run build
+cd auth_api
 npm run dev
 ```
 
-### 5. Set up Vercel enviroment variables
-
-Since the app uses Vercel BLOB, ensure that you have set up the correct enviroment variables in a `.env.local` file inside the `client` folder.
-For more information, please read the documentation on how to use the Vercel BLOB API [here](https://vercel.com/docs/vercel-blob/server-upload)
-
-### 5.1 Run the client locally
+### 5. Run the client locally
 
 To use the client, type the following commands in your terminal:
 
@@ -74,13 +68,6 @@ npm run dev
 ```
 
 The client will run locally by default in _http://localhost:3000_.
-
-> [!WARNING]
-> We use Vercel BLOB for image/file storage, so it's not possible to fetch files from the client while hosting the app locally (localhost);
-> you have to use a gateway API like [ngrok](https://ngrok.com/) or the client might possibly break trying to fetch
-> files from Vercel.
-
----
 
 ## API Usage
 
