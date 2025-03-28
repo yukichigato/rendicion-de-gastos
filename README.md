@@ -42,10 +42,9 @@ Ensure to have docker installed. If you use Docker Desktop, open it before movin
 
 ### 3. Build the Database API using Docker
 
-Once Docker is running, use the following command to build the app images and to lift the containers:
+Once Docker is running, use the following command to build the app images and to lift the containers. You must be inside the root folder:
 
 ```bash
-cd db_api
 docker-compose up --build
 ```
 
