@@ -45,6 +45,7 @@ Ensure to have docker installed. If you use Docker Desktop, open it before movin
 Once Docker is running, use the following command to build the app images and to lift the containers:
 
 ```bash
+cd db_api
 docker-compose up --build
 ```
 
