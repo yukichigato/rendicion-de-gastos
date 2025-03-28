@@ -1,3 +1,10 @@
+> [!IMPORTANT]  
+> Por el momento, para revisar el proyecto actualizado revisar el branch de
+> `feature/port-client`. La branch `main` está muy desactualizada y no representa
+> la visión y avance actual del proyecto.
+
+---
+
 # Expense report application
 
 _"Application for emplyees of business X (not real) to submit and validate expense reports with accountants."_
