@@ -1,10 +1,4 @@
-# Expense report application
-
-_"Application for emplyees of business X (not real) to submit and validate expense reports with accountants."_
-
-The app uses a Python REST API to manage reports and employee data in  PostgreSQL, an Express API for authentication, and a frontend using React.
-
----
+# Items administrativos e información | INF 225
 
 ## Nombre y rol de los integrantes
 
@@ -15,6 +9,19 @@ The app uses a Python REST API to manage reports and employee data in  PostgreSQ
 202373098-K Simón Sobenes
 
 202173112-1 Baltazar Portilla
+
+## Identificación del proyecto
+
+Se seguirá trabajando en el proyecto del **sistema para el manejo de rendiciones de gastos**, intentando implementar las características que quedaron pendientes el semestre pasado (2024-02) y además cambiando algunas de las cuales no estamos satisfechos sobre su implementación.
+
+---
+
+# Expense report application
+
+_"Application for emplyees of business X (not real) to submit and validate expense reports with accountants."_
+
+The app uses a Python REST API to manage reports and employee data in  PostgreSQL, an Express API for authentication, and a frontend using React.
+
 
 ---
 
