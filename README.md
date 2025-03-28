@@ -2,8 +2,7 @@
 
 _"Application for emplyees of business X (not real) to submit and validate expense reports with accountants."_
 
-The app uses a Python REST API to manage reports and employee data in a PostgreSQL, alongside a NextJS frontend for a
-fast and smooth client experience in the reports' dashboard.
+The app uses a Python REST API to manage reports and employee data in  PostgreSQL, an Express API for authentication, and a frontend using React.
 
 ---
 
