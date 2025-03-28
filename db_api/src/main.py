@@ -1,7 +1,7 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .routers.users import userRouter
 from .routers.expense_report import reportRouter
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
